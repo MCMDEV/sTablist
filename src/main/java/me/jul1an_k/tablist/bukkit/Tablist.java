@@ -66,7 +66,7 @@ public class Tablist extends JavaPlugin {
 				continue;
 			}
 			
-			TabPrefix.setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"));
+			TabPrefix.getImpl().setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"));
 		}
 		
 		Bukkit.getPluginManager().registerEvents(new Join_Listener(), this);
@@ -74,8 +74,7 @@ public class Tablist extends JavaPlugin {
 		if(Tablist.getPlugin(Tablist.class).getConfig().getBoolean("EnablePvPStats")) {
 			Bukkit.getPluginManager().registerEvents(new VariableManager.PvPVariables(), this);
 		}
-		
-		Bukkit.getPluginManager().registerEvents(new TabPrefix(), this);
+
 		this.getCommand("stabreload").setExecutor(new TabReloadCommand());
 		this.getCommand("settab").setExecutor(new TabSetCommand());
 		this.getCommand("update").setExecutor(new FileUpdate());
@@ -100,7 +99,7 @@ public class Tablist extends JavaPlugin {
 		
 		FileConfiguration fc = getConfig();
 		if(!fc.contains("RandomColors")) {
-			List<String> randomColors = new ArrayList<String>();
+			List<String> randomColors = new ArrayList<>();
 			randomColors.add("&0");
 			randomColors.add("&1");
 			randomColors.add("&2");
@@ -135,8 +134,7 @@ public class Tablist extends JavaPlugin {
 	
 	public static void startUpdate() {
 		long start = System.currentTimeMillis();
-		UpdateTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), new Runnable() {
-			public void run() {
+		UpdateTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), () -> {
 				for(Player p : Bukkit.getOnlinePlayers()) {
 					Tablist instance = Tablist.getPlugin(Tablist.class);
 					
@@ -155,12 +153,11 @@ public class Tablist extends JavaPlugin {
 						sTablistAPI.getImpl().sendTabList(p, null, instance.getConfig().getString("Footer.text"));
 					}
 				}
-			}
 		}, Tablist.getPlugin(Tablist.class).getConfig().getInt("TabAutoUpdate") * 20, Tablist.getPlugin(Tablist.class).getConfig().getInt("TabAutoUpdate") * 20);
 		long stop = System.currentTimeMillis();
 		System.out.println("[sTablist] Tab Update Task was started in " + (stop - start) + " Millis!");
 	}
-	
+
 	private static void hidePlayer(Player p) {
 		if(p.getGameMode() == GameMode.SPECTATOR) {
 			for(Player all : Bukkit.getOnlinePlayers()) {
@@ -184,51 +181,51 @@ public class Tablist extends JavaPlugin {
 		System.out.println("[sTablist] Tab Update Task was stopped in " + (stop - start) + " Millis!");
 	}
 	
-	private static int TagUpdateTask = 0;
+	private int tagUpdateTask = 0;
 	
-	public static void startTagUpdate() {
+	private void startTagUpdate() {
 		long start = System.currentTimeMillis();
-		TagUpdateTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), new Runnable() {
-			public void run() {
+
+		tagUpdateTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), () -> {
 				for(Player all : Bukkit.getOnlinePlayers()) {
-					TabPrefix.loadNametag(all);
+					TabPrefix.getImpl().loadNametag(all);
 				}
-			}
 		}, Tablist.getPlugin(Tablist.class).getConfig().getInt("TagAutoUpdate") * 20, Tablist.getPlugin(Tablist.class).getConfig().getInt("TagAutoUpdate") * 20);
 		long stop = System.currentTimeMillis();
+
 		System.out.println("[sTablist] Tag Update Task was started in " + (stop - start) + " Millis!");
 	}
-	
-	public static void stopTagUpdate() {
+
+	private void stopTagUpdate() {
 		long start = System.currentTimeMillis();
-		Bukkit.getScheduler().cancelTask(TagUpdateTask);
+		Bukkit.getScheduler().cancelTask(tagUpdateTask);
 		long stop = System.currentTimeMillis();
 		System.out.println("[sTablist] Tag Update Task was stopped in " + (stop - start) + " Millis!");
 	}
 	
-	private static void startPluginUpdate() {
+	private void startPluginUpdate() {
 		long start = System.currentTimeMillis();
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), new Runnable() {
-			public void run() {
+
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), () -> {
 				FileUpdate updater = new FileUpdate();
 				updater.check();
-			}
 		}, Tablist.getPlugin(Tablist.class).getConfig().getInt("PluginAutoUpdate") * 20, Tablist.getPlugin(Tablist.class).getConfig().getInt("PluginAutoUpdate") * 20);
 		long stop = System.currentTimeMillis();
+
 		System.out.println("[sTablist] Plugin Update Task was started in " + (stop - start) + " Millis!");
 	}
 	
 	@SuppressWarnings("unused")
-	private static void startScoreboardUpdate() {
+	private void startScoreboardUpdate() {
 		long start = System.currentTimeMillis();
-		Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), new Runnable() {
-			public void run() {
+
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), () -> {
 				for(Player all : Bukkit.getOnlinePlayers()) {
 					STLScoreboard.show(all);
 				}
-			}
 		}, sbcfg.YAML.getInt("UpdateTime"), sbcfg.YAML.getInt("UpdateTime"));
 		long stop = System.currentTimeMillis();
+
 		System.out.println("[sTablist] Scoreboard Update Task was started in " + (stop - start) + " Millis!");
 	}
 	

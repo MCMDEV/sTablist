@@ -2,6 +2,7 @@ package me.jul1an_k.tablist.global.api.impl.bukkit.tabprefix;
 
 import java.util.List;
 
+import me.jul1an_k.tablist.bukkit.tabprefix.TabPrefix;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -18,13 +19,10 @@ import me.jul1an_k.tablist.bukkit.config.ConfigFile;
 import me.jul1an_k.tablist.bukkit.variables.VariableManager;
 import net.milkbowl.vault.permission.Permission;
 
-public class TabPrefix_TeamBased implements Listener {
-	
-	private static ConfigFile groupsFile = new ConfigFile("plugins/sTablist/Prefixes-And-Suffixes", "groups");
-	private static ConfigFile playersFile = new ConfigFile("plugins/sTablist/Prefixes-And-Suffixes", "players");
+public class TabPrefix_TeamBased extends TabPrefix {
 	
 	@SuppressWarnings("deprecation")
-	public static void setPrefix(Player p, String prefix) {
+	public void setPrefix(Player p, String prefix) {
 		prefix = VariableManager.replace(prefix, p);
 		Scoreboard board = Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard") ? p.getScoreboard() : Bukkit.getScoreboardManager().getMainScoreboard();
 		Team team = board.getTeam(p.getName());
@@ -47,7 +45,7 @@ public class TabPrefix_TeamBased implements Listener {
 	}
 	
 	@SuppressWarnings("deprecation")
-	public static void setSuffix(Player p, String suffix) {
+	public void setSuffix(Player p, String suffix) {
 		suffix = VariableManager.replace(suffix, p);
 		Scoreboard board = Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard") ? p.getScoreboard() : Bukkit.getScoreboardManager().getMainScoreboard();
 		Team team = board.getTeam(p.getName());
@@ -70,7 +68,7 @@ public class TabPrefix_TeamBased implements Listener {
 		playersFile.save();
 	}
 	
-	public static void unset(OfflinePlayer p) {
+	public void unset(OfflinePlayer p) {
 		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
 		Team team = board.getTeam(p.getName());
 		
@@ -90,7 +88,7 @@ public class TabPrefix_TeamBased implements Listener {
 		playersFile.save();
 	}
 	
-	public static void setupGroup(String group, String prefix, String suffix) {
+	public void setupGroup(String group, String prefix, String suffix) {
 		int sortID = getSortID(group);
 		String groupName = "0" + (sortID < 10 ? ("0" + sortID) : sortID) + group;
 		
@@ -117,7 +115,7 @@ public class TabPrefix_TeamBased implements Listener {
 		}
 	}
 	
-	public static void setupGroup(String group, String prefix, String suffix, Player p) {
+	public void setupGroup(String group, String prefix, String suffix, Player p) {
 		int sortID = getSortID(group);
 		String groupName = "0" + (sortID < 10 ? ("0" + sortID) : sortID) + group;
 		
@@ -131,7 +129,7 @@ public class TabPrefix_TeamBased implements Listener {
 		team.setSuffix(suffix);
 	}
 	
-	private static void setInGroup(Player p, String group) {
+	public void setInGroup(Player p, String group) {
 		int sortID = getSortID(group);
 		String groupName = "0" + (sortID < 10 ? ("0" + sortID) : sortID) + group;
 		
@@ -156,7 +154,7 @@ public class TabPrefix_TeamBased implements Listener {
 		}
 	}
 	
-	private static int getSortID(String group) {
+	private int getSortID(String group) {
 		List<String> groups = groupsFile.getYaml().getStringList("GroupSort");
 		for(int i = 0; i < groups.size(); i++) {
 			if(groups.get(i).equalsIgnoreCase(group)) {
@@ -166,7 +164,7 @@ public class TabPrefix_TeamBased implements Listener {
 		return 99;
 	}
 	
-	public static void loadNametag(Player p) {
+	public void loadNametag(Player p) {
 		boolean block = false;
 		if(playersFile.getYaml().contains(p.getUniqueId() + ".Prefix")) {
 			setPrefix(p, playersFile.getYaml().getString(p.getUniqueId() + ".Prefix"));
@@ -187,7 +185,7 @@ public class TabPrefix_TeamBased implements Listener {
 			RegisteredServiceProvider<Permission> permissionProvider = Tablist.getPlugin(Tablist.class).getServer().getServicesManager().getRegistration(Permission.class);
 
 			if(permissionProvider != null)
-				permission = (Permission) permissionProvider.getProvider();
+				permission = permissionProvider.getProvider();
 
 			if(permission == null)
 				return;
@@ -200,50 +198,5 @@ public class TabPrefix_TeamBased implements Listener {
 			}
 		}
 	}
-	
-	@EventHandler
-	public void onJoin(PlayerJoinEvent e) {
-		Player p = e.getPlayer();
-		
-		boolean block = false;
 
-		if(playersFile.getYaml().contains(p.getUniqueId() + ".Prefix")) {
-			setPrefix(p, playersFile.getYaml().getString(p.getUniqueId() + ".Prefix"));
-			block = true;
-		}
-		
-		if(playersFile.getYaml().contains(p.getUniqueId() + ".Suffix")) {
-			setSuffix(p, playersFile.getYaml().getString(p.getUniqueId() + ".Suffix"));
-			block = true;
-		}
-		
-		if(block)
-			return;
-
-		if(Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-			Permission permission = null;
-			RegisteredServiceProvider<Permission> permissionProvider = Tablist.getPlugin(Tablist.class).getServer().getServicesManager().getRegistration(Permission.class);
-
-			if(permissionProvider != null)
-				permission = (Permission) permissionProvider.getProvider();
-
-			if(permission == null)
-				return;
-
-			if(permission.getName().equals("SuperPerms"))
-				return;
-
-			if((groupsFile.getYaml().contains(permission.getPlayerGroups(p)[0] + ".Prefix") | groupsFile.getYaml().contains(permission.getPlayerGroups(p)[0] + ".Suffix"))) {
-				setInGroup(p, permission.getPlayerGroups(p)[0]);
-			}
-		}
-	}
-	
-	public static ConfigFile getPlayersFile() {
-		return playersFile;
-	}
-	
-	public static ConfigFile getGroupsFile() {
-		return groupsFile;
-	}
 }

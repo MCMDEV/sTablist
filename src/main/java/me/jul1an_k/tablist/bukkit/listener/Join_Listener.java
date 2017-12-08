@@ -1,5 +1,6 @@
 package me.jul1an_k.tablist.bukkit.listener;
 
+import javafx.scene.control.Tab;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -50,6 +51,8 @@ public class Join_Listener implements Listener {
 		// TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"), p);
 		// }
 		// }
+
+		TabPrefix.getImpl().loadNametag(p);
 		
 		if(Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard")) {
 			for(String group : TabPrefix.getGroupsFile().getYaml().getConfigurationSection("").getKeys(false)) {
@@ -57,19 +60,17 @@ public class Join_Listener implements Listener {
 					continue;
 				}
 				
-				TabPrefix.setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"), p);
+				TabPrefix.getImpl().setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"), p);
 			}
 			
-			Bukkit.getScheduler().runTaskLater(Tablist.getPlugin(Tablist.class), new Runnable() {
-				public void run() {
+			Bukkit.getScheduler().runTaskLater(Tablist.getPlugin(Tablist.class), () -> {
 					for(String group : TabPrefix.getGroupsFile().getYaml().getConfigurationSection("").getKeys(false)) {
 						if(group.equalsIgnoreCase("GroupSort")) {
 							continue;
 						}
 						
-						TabPrefix.setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"), p);
+						TabPrefix.getImpl().setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"), p);
 					}
-				}
 			}, 3 * 20);
 		}
 	}
