@@ -1,0 +1,56 @@
+EnableAutoUpdater: true
+
+#In Seconds
+PluginAutoUpdate: 3600
+
+#In Seconds
+TabAutoUpdate: 3
+
+#In Seconds
+TagAutoUpdate: 3
+
+#Support Colorcodes (&0-9 or &a-f)#
+
+#Use %player% for the Players name#
+Header: 
+  text: '&5This is the Header!'
+  use: true
+Footer: 
+  text: '&5This is the Footer!'
+  use: true
+  
+HideGM3: false
+
+Join:
+  Title:
+    text: '&5Welcome to'
+    subtext: '&5A Minecraft Server!'
+    fadein: 5
+    stay: 20
+    fadeout: 5
+    use: true
+  Actionbar:
+    text: '&5Have fun!'
+    use: true
+  
+RandomColors:
+- '&0'
+- '&1'
+- '&2'
+- '&3'
+- '&4'
+- '&5'
+- '&6'
+- '&7'
+- '&8'
+- '&9'
+- '&a'
+- '&b'
+- '&c'
+- '&d'
+- '&e'
+- '&f'
+
+UseExternalScoreboard: false
+
+ConfigVersion: '3.0.0-pre2'

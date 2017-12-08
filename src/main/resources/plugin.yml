@@ -1,0 +1,39 @@
+name: sTablist
+author: Jul1an_K
+version: 3.0.0-pre2
+softDepend: [PlaceholderAPI, Vault]
+main: me.jul1an_k.tablist.bukkit.Tablist
+
+
+commands:
+  stabreload:
+    description: Reload the Configuration
+    usage: /<command>
+  settab:
+    description: Set Header or Footer 
+    usage: /<command>
+  update:
+    description: Update
+    usage: /<command>
+  stabinfo:
+    description: Info
+    usage: /<command>
+  stablist:
+    description: Broadcast and more
+    usage: /<command>
+    aliases: [stl, sTlist, sTabl, sT]
+    
+permissions:
+    sTablist.*:
+        description: All Permissions of sTablist
+        children:
+            sTablist.reload: true
+            sTablist.settab: true
+            sTablist.update: true
+            sTablist.broadcast: true
+            sTablist.msg: true
+            sTablist.setprefix: true
+            sTablist.setsuffix: true
+            sTablist.del: true
+            sTablist.regenconfig: true
+            sTablist.copyfrompermissionsystem: true

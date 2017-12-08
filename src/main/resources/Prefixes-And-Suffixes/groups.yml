@@ -1,0 +1,12 @@
+Owner:
+  Prefix: '&8[&4&lO&8] &4'
+  Suffix: ' &3The Best'
+User:
+  Prefix: '&8[&9&lU&8] &9'
+  Suffix: ' &3A User'
+  
+#Highest Group = Highest group in Tablist
+#Lowest Group = Lowsest group in Tablist
+GroupSort:
+- 'Owner'
+- 'User'

@@ -1,0 +1,14 @@
+Enable: true
+#20 -> 1 Sec
+UpdateTime: 3
+DisplayName: '&5sTablist by Jul1an_K'
+Lines:
+- ' '
+- '&6Thanks for using &5sTablist'
+- '&1'
+- '&6by &5Jul1an_K'
+- '&2'
+- '&4Online: &5%online%&4/&5%max_online%'
+- '&3'
+- '%rdm_color%This text changes the color!'
+- '&4'
