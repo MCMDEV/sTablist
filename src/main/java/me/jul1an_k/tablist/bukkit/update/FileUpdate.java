@@ -62,7 +62,7 @@ public class FileUpdate implements CommandExecutor {
 		return true;
 	}
 	
-	public boolean downloadUpdate(final CommandSender sender) {
+	private boolean downloadUpdate(final CommandSender sender) {
 		boolean success = false;
 		String pluginPath = "plugins/" + Tablist.getPlugin(Tablist.class).getDescription().getName() + ".jar";
 		

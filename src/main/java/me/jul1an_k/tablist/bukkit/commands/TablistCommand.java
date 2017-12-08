@@ -108,7 +108,7 @@ public class TablistCommand implements CommandExecutor {
 				
 				OfflinePlayer p = Bukkit.getOfflinePlayer(args[1]);
 				
-				TabPrefix.unset(p);
+				TabPrefix.getImpl().unset(p);
 				cs.sendMessage("§aThe Prefix and Suffix of §6" + p.getName() + " §awas deleted.");
 			}
 		} else if(args.length >= 3) {
@@ -159,7 +159,7 @@ public class TablistCommand implements CommandExecutor {
 					cs.sendMessage("§4The Prefix has a maximal length of 16!");
 					return true;
 				}
-				TabPrefix.setPrefix(p, msg);
+				TabPrefix.getImpl().setPrefix(p, msg);
 				cs.sendMessage("§aThe Prefix of §6" + p.getName() + " §awas set to §6" + msg);
 			} else if(args[0].equalsIgnoreCase("setSuffix")) {
 				if(!cs.hasPermission("sTablist.setSuffix")) {
@@ -175,7 +175,7 @@ public class TablistCommand implements CommandExecutor {
 					cs.sendMessage("§4The Suffix has a maximal length of 16!");
 					return true;
 				}
-				TabPrefix.setSuffix(p, msg);
+				TabPrefix.getImpl().setSuffix(p, msg);
 				cs.sendMessage("§aThe Suffix of §6" + p.getName() + " §awas set to §6" + msg);
 			}
 		} else if(args.length >= 4) {

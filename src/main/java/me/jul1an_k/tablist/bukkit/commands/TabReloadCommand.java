@@ -25,7 +25,7 @@ public class TabReloadCommand implements CommandExecutor {
 				continue;
 			}
 			
-			TabPrefix.setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"));
+			TabPrefix.getImpl().setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"));
 		}
 		
 		cs.sendMessage("§aSuccessfully reloaded the Configuration File!");

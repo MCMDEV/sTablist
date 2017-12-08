@@ -39,7 +39,7 @@ public class TabPrefix_TeamBased extends TabPrefix {
 			}
 		}
 		
-		playersFile.getYaml().set(p.getUniqueId() + ".Prefix", prefix.replace("§", "&"));
+		playersFile.getYaml().set(p.getUniqueId() + ".Prefix", ChatColor.translateAlternateColorCodes('&', prefix));
 		
 		playersFile.save();
 	}
@@ -63,7 +63,7 @@ public class TabPrefix_TeamBased extends TabPrefix {
 			}
 		}
 		
-		playersFile.getYaml().set(p.getUniqueId() + ".Suffix", suffix.replace("§", "&"));
+		playersFile.getYaml().set(p.getUniqueId() + ".Suffix", ChatColor.translateAlternateColorCodes('&', suffix));
 		
 		playersFile.save();
 	}
