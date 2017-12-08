@@ -19,7 +19,9 @@ import me.jul1an_k.tablist.bukkit.variables.VariableManager;
 import net.milkbowl.vault.permission.Permission;
 
 public class TabPrefix implements Listener {
-	
+
+	//TODO: Use TabPrefix_TeamBased (Like in sTablistAPI)
+
 	private static ConfigFile groupsFile = new ConfigFile("plugins/sTablist/Prefixes-And-Suffixes", "groups");
 	private static ConfigFile playersFile = new ConfigFile("plugins/sTablist/Prefixes-And-Suffixes", "players");
 	

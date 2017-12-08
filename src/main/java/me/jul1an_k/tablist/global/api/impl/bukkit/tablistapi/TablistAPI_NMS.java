@@ -102,7 +102,7 @@ public class TablistAPI_NMS extends sTablistAPI {
 			f.set(t, fadeout);
 			sendPacket(p, t);
 			
-			if(clear == true) {
+			if(clear) {
 				t = this.title.newInstance();
 				f = t.getClass().getDeclaredField("a");
 				f.setAccessible(true);
@@ -110,7 +110,7 @@ public class TablistAPI_NMS extends sTablistAPI {
 				sendPacket(p, t);
 			}
 			
-			if(reset == true) {
+			if(reset) {
 				t = this.title.newInstance();
 				f = t.getClass().getDeclaredField("a");
 				f.setAccessible(true);
@@ -174,26 +174,20 @@ public class TablistAPI_NMS extends sTablistAPI {
 		f.setAccessible(true);
 		return f;
 	}
-	
+
 	public int getPing(Player player) {
 		int pingInt = 0;
-		
+
 		Object nmsPlayer = getNMSPlayer(player);
-		
+
 		try {
 			Field ping = nmsPlayer.getClass().getField("ping");
-			
+
 			pingInt = ping.getInt(nmsPlayer);
-		} catch(NoSuchFieldException e) {
-			e.printStackTrace();
-		} catch(SecurityException e) {
-			e.printStackTrace();
-		} catch(IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch(IllegalAccessException e) {
+		} catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
-		
+
 		return pingInt;
 	}
 	

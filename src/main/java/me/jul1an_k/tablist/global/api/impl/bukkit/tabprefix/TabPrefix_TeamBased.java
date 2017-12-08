@@ -51,6 +51,7 @@ public class TabPrefix_TeamBased implements Listener {
 		suffix = VariableManager.replace(suffix, p);
 		Scoreboard board = Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard") ? p.getScoreboard() : Bukkit.getScoreboardManager().getMainScoreboard();
 		Team team = board.getTeam(p.getName());
+
 		if(team == null) {
 			team = board.registerNewTeam(p.getName());
 		}
@@ -183,16 +184,17 @@ public class TabPrefix_TeamBased implements Listener {
 		
 		if(Bukkit.getPluginManager().isPluginEnabled("Vault")) {
 			Permission permission = null;
-			RegisteredServiceProvider<Permission> permissionProvider = ((Tablist) Tablist.getPlugin(Tablist.class)).getServer().getServicesManager().getRegistration(Permission.class);
-			if(permissionProvider != null) {
+			RegisteredServiceProvider<Permission> permissionProvider = Tablist.getPlugin(Tablist.class).getServer().getServicesManager().getRegistration(Permission.class);
+
+			if(permissionProvider != null)
 				permission = (Permission) permissionProvider.getProvider();
-			}
-			if(permission == null) {
+
+			if(permission == null)
 				return;
-			}
-			if(permission.getName() == "SuperPerms") {
+
+			if(permission.getName().equals("SuperPerms"))
 				return;
-			}
+
 			if((groupsFile.getYaml().contains(permission.getPlayerGroups(p)[0] + ".Prefix") | groupsFile.getYaml().contains(permission.getPlayerGroups(p)[0] + ".Suffix"))) {
 				setInGroup(p, permission.getPlayerGroups(p)[0]);
 			}
@@ -204,6 +206,7 @@ public class TabPrefix_TeamBased implements Listener {
 		Player p = e.getPlayer();
 		
 		boolean block = false;
+
 		if(playersFile.getYaml().contains(p.getUniqueId() + ".Prefix")) {
 			setPrefix(p, playersFile.getYaml().getString(p.getUniqueId() + ".Prefix"));
 			block = true;
@@ -214,22 +217,22 @@ public class TabPrefix_TeamBased implements Listener {
 			block = true;
 		}
 		
-		if(block) {
+		if(block)
 			return;
-		}
-		
+
 		if(Bukkit.getPluginManager().isPluginEnabled("Vault")) {
 			Permission permission = null;
-			RegisteredServiceProvider<Permission> permissionProvider = ((Tablist) Tablist.getPlugin(Tablist.class)).getServer().getServicesManager().getRegistration(Permission.class);
-			if(permissionProvider != null) {
+			RegisteredServiceProvider<Permission> permissionProvider = Tablist.getPlugin(Tablist.class).getServer().getServicesManager().getRegistration(Permission.class);
+
+			if(permissionProvider != null)
 				permission = (Permission) permissionProvider.getProvider();
-			}
-			if(permission == null) {
+
+			if(permission == null)
 				return;
-			}
-			if(permission.getName() == "SuperPerms") {
+
+			if(permission.getName().equals("SuperPerms"))
 				return;
-			}
+
 			if((groupsFile.getYaml().contains(permission.getPlayerGroups(p)[0] + ".Prefix") | groupsFile.getYaml().contains(permission.getPlayerGroups(p)[0] + ".Suffix"))) {
 				setInGroup(p, permission.getPlayerGroups(p)[0]);
 			}

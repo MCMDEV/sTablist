@@ -34,8 +34,7 @@ public abstract class sTablistAPI {
 			System.out.println("[sTablistAPI] TablistAPI Implementation set to Glowstone.");
 			
 			return;
-		} catch(ClassNotFoundException e) {
-		}
+		} catch(ClassNotFoundException e) {}
 		
 		try {
 			Class.forName("org.spigotmc.ProtocolInjector$PacketTabHeader");
@@ -45,8 +44,7 @@ public abstract class sTablistAPI {
 			System.out.println("[sTablistAPI] TablistAPI Implementation set to 1.7.10 'Protocol Hack'.");
 			
 			return;
-		} catch(ClassNotFoundException e) {
-		}
+		} catch(ClassNotFoundException e) {}
 		
 		implemantation = new TablistAPI_NMS();
 		

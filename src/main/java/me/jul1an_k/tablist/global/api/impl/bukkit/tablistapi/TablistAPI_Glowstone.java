@@ -1,5 +1,6 @@
 package me.jul1an_k.tablist.global.api.impl.bukkit.tablistapi;
 
+import net.glowstone.GlowServer;
 import org.bukkit.entity.Player;
 
 import me.jul1an_k.tablist.bukkit.sTablistAPI;
@@ -42,7 +43,8 @@ public class TablistAPI_Glowstone extends sTablistAPI {
 	}
 	
 	public int getPing(Player player) {
-		return new TablistAPI_NMS().getPing(player);
+		//TODO: Fix me
+		return 0;
 	}
 	
 	public String getVersion() {

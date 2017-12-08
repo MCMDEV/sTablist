@@ -91,7 +91,7 @@ public class TablistAPI_ProtocolHack extends sTablistAPI {
 			f.set(t, fadeout);
 			sendPacket(player, t);
 			
-			if(clear == true) {
+			if(clear) {
 				t = this.title.newInstance();
 				f = t.getClass().getDeclaredField("action");
 				f.setAccessible(true);
@@ -99,7 +99,7 @@ public class TablistAPI_ProtocolHack extends sTablistAPI {
 				sendPacket(player, t);
 			}
 			
-			if(reset == true) {
+			if(reset) {
 				t = this.title.newInstance();
 				f = t.getClass().getDeclaredField("action");
 				f.setAccessible(true);
@@ -174,9 +174,21 @@ public class TablistAPI_ProtocolHack extends sTablistAPI {
 		f.setAccessible(true);
 		return f;
 	}
-	
+
 	public int getPing(Player player) {
-		return new TablistAPI_NMS().getPing(player);
+		int pingInt = 0;
+
+		Object nmsPlayer = getNMSPlayer(player);
+
+		try {
+			Field ping = nmsPlayer.getClass().getField("ping");
+
+			pingInt = ping.getInt(nmsPlayer);
+		} catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+			e.printStackTrace();
+		}
+
+		return pingInt;
 	}
 	
 }
