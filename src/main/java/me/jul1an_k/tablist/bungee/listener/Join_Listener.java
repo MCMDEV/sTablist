@@ -1,9 +1,9 @@
 package me.jul1an_k.tablist.bungee.listener;
 
 import me.jul1an_k.tablist.bungee.Tablist;
-import net.md_5.bungee.BungeeTitle;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.Title;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.PostLoginEvent;
@@ -23,7 +23,7 @@ public class Join_Listener implements Listener {
 		p.setTabHeader(new TextComponent(header), new TextComponent(footer));
 		
 		if(Tablist.getInstance().getCfg().getYaml().getBoolean("Join.Title.use")) {
-			BungeeTitle bt = new BungeeTitle();
+			Title bt = ProxyServer.getInstance().createTitle();
 			
 			bt.title(new TextComponent(replace(Tablist.getInstance().getCfg().getYaml().getString("Join.Title.text"), p)));
 			bt.subTitle(new TextComponent(replace(Tablist.getInstance().getCfg().getYaml().getString("Join.Title.subtext"), p)));

@@ -18,6 +18,10 @@
             <url>https://repo.glowstone.net/repository/snapshots/</url>
         </repository>
         <repository>
+            <id>bungeecord-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+        <repository>
             <id>vault-repo</id>
             <url>http://nexus.hc.to/content/repositories/pub_releases</url>
         </repository>
@@ -47,6 +51,12 @@
             <groupId>net.glowstone</groupId>
             <artifactId>glowstone</artifactId>
             <version>2018.0.0-SNAPSHOT</version>
+        </dependency>
+        <!--BungeeCord API-->
+        <dependency>
+            <groupId>net.md-5</groupId>
+            <artifactId>bungeecord-api</artifactId>
+            <version>1.12-SNAPSHOT</version>
         </dependency>
         <!--Vault-->
         <dependency>
