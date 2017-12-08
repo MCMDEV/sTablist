@@ -1,6 +1,5 @@
 package me.jul1an_k.tablist.bukkit.listener;
 
-import javafx.scene.control.Tab;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
