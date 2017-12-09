@@ -1,6 +1,5 @@
 package me.jul1an_k.tablist.global.api.impl.bukkit.tablistapi;
 
-import net.glowstone.GlowServer;
 import org.bukkit.entity.Player;
 
 import me.jul1an_k.tablist.bukkit.sTablistAPI;

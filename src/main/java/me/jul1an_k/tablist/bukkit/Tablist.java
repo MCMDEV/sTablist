@@ -29,6 +29,7 @@ public class Tablist extends JavaPlugin {
 		long start = System.currentTimeMillis();
 		
 		sTablistAPI.setupTablistAPI();
+		TabPrefix.setupTabPrefix();
 		
 		saveDefaultConfig();
 		// saveResource("scoreboard.yml", false);
