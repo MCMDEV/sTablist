@@ -51,7 +51,7 @@ public class Join_Listener implements Listener {
 		// }
 		// }
 
-		TabPrefix.getImpl().loadNametag(p);
+		TabPrefix.getImpl().loadNameTag(p);
 		
 		if(Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard")) {
 			for(String group : TabPrefix.getGroupsFile().getYaml().getConfigurationSection("").getKeys(false)) {

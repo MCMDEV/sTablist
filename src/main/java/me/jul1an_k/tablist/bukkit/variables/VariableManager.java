@@ -2,11 +2,7 @@ package me.jul1an_k.tablist.bukkit.variables;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,7 +22,24 @@ import net.milkbowl.vault.permission.Permission;
 
 public class VariableManager {
 	
-	private static HashMap<String, Scroller> scrollers = new HashMap<String, Scroller>();
+	private static Map<String, Scroller> scrollers = new HashMap<>();
+
+	private static Economy economy;
+	private static Permission permission;
+
+	static {
+		if(Bukkit.getPluginManager().isPluginEnabled("Vault")) {
+			Economy economy = null;
+			RegisteredServiceProvider<Economy> economyProvider = Tablist.getPlugin(Tablist.class).getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+
+			if(economyProvider != null) economy = economyProvider.getProvider();
+
+			Permission permission = null;
+			RegisteredServiceProvider<Permission> permissionProvider = Tablist.getPlugin(Tablist.class).getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
+
+			if(permissionProvider != null) permission = permissionProvider.getProvider();
+		}
+	}
 	
 	public static String replace(String msg, Player p) {
 		String newmsg = msg;
@@ -54,46 +67,25 @@ public class VariableManager {
 		}
 		
 		newmsg = newmsg.replace("%staff_online%", staffs + "");
-		
-		if(Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-			Economy economy = null;
-			RegisteredServiceProvider<Economy> economyProvider = Tablist.getPlugin(Tablist.class).getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-			if(economyProvider != null) {
-				economy = economyProvider.getProvider();
-			}
 			
-			Permission permission = null;
-			RegisteredServiceProvider<Permission> permissionProvider = Tablist.getPlugin(Tablist.class).getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-			if(permissionProvider != null) {
-				permission = permissionProvider.getProvider();
-			}
+		if(economy != null) {
+			newmsg = newmsg.replace("%money%", economy.getBalance(p) + "");
+		}
 			
-			if(economy != null) {
-				newmsg = newmsg.replace("%money%", economy.getBalance(p) + "");
+		if(permission != null) {
+			boolean replace = true;
+
+			if(permission.getName().equalsIgnoreCase("SuperPerms")) {
+				newmsg = newmsg.replace("%rank%", "Incompatible Permission System");
+				replace = false;
 			}
-			
-			if(permission != null) {
-				boolean replace = true;
-				if(permission.getName().equalsIgnoreCase("SuperPerms")) {
-					newmsg = newmsg.replace("%rank%", "Incompatible Permission System");
-					replace = false;
-				}
-				if(replace == true) {
-					newmsg = newmsg.replace("%rank%", permission.getPlayerGroups(p)[0]);
-				}
-			}
-			
+
+			if(replace) newmsg = newmsg.replace("%rank%", permission.getPlayerGroups(p)[0]);
 		}
 		
-		if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-			newmsg = me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(p, newmsg);
-		}
+		if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) newmsg = me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(p, newmsg);
 		
 		newmsg = ChatColor.translateAlternateColorCodes('&', newmsg);
-		
-		if(scrollers.containsKey(msg)) {
-			return scrollers.get(msg).getCurrentText();
-		}
 		
 		return newmsg;
 	}
@@ -152,133 +144,20 @@ public class VariableManager {
 		}
 		
 		newmsg = newmsg.replace("%scroller%", "");
-		
-		if(Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-			Economy economy = null;
-			RegisteredServiceProvider<Economy> economyProvider = Tablist.getPlugin(Tablist.class).getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-			if(economyProvider != null) {
-				economy = economyProvider.getProvider();
-			}
-			
-			Permission permission = null;
-			RegisteredServiceProvider<Permission> permissionProvider = Tablist.getPlugin(Tablist.class).getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-			if(permissionProvider != null) {
-				permission = permissionProvider.getProvider();
-			}
-			
-			if(economy != null) {
-				newmsg = newmsg.replace("%money%", economy.getBalance(p) + "");
-			}
-			
-			if(permission != null) {
-				boolean replace = true;
-				if(permission.getName().equalsIgnoreCase("SuperPerms")) {
-					newmsg = newmsg.replace("%rank%", "Incompatible Permission System");
-					replace = false;
-				}
-				if(replace == true) {
-					newmsg = newmsg.replace("%rank%", permission.getPlayerGroups(p)[0]);
-				}
-			}
-			
+
+		if(economy != null) {
+			newmsg = newmsg.replace("%money%", economy.getBalance(p) + "");
 		}
-		
-		if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-			newmsg = me.clip.placeholderapi.PlaceholderAPI.setPlaceholders(p, newmsg);
-		}
-		
-		newmsg = ChatColor.translateAlternateColorCodes('&', newmsg);
-		
-		if(scrollers.containsKey(msg)) {
-			return scrollers.get(msg).getCurrentText();
-		}
-		
-		return newmsg;
-	}
-	
-	public static String replaceScoreboard(String msg, Player p) {
-		String newmsg = msg;
-		
-		newmsg = newmsg.replace("%player%", p.getName());
-		newmsg = newmsg.replace("%displayname%", p.getDisplayName());
-		newmsg = newmsg.replace("%online%", getOnlinePlayers().size() + "");
-		newmsg = newmsg.replace("%max_online%", Bukkit.getMaxPlayers() + "");
-		newmsg = newmsg.replace("%servername%", Bukkit.getServerName());
-		newmsg = newmsg.replace("%deaths%", PvPVariables.getDeaths(p) + "");
-		newmsg = newmsg.replace("%kills%", PvPVariables.getKills(p) + "");
-		newmsg = newmsg.replace("%rdm_color%", Animation.getRandomColor() + "");
-		newmsg = newmsg.replace("%x%", (int) p.getLocation().getX() + "");
-		newmsg = newmsg.replace("%y%", (int) p.getLocation().getY() + "");
-		newmsg = newmsg.replace("%z%", (int) p.getLocation().getZ() + "");
-		newmsg = newmsg.replace("%ping%", sTablistAPI.getImpl().getPing(p) + "");
-		newmsg = newmsg.replace("%world%", p.getWorld().getName());
-		
-		int staffs = 0;
-		
-		for(Player all : getOnlinePlayers()) {
-			if(all.hasPermission("sTablist.Staff")) {
-				staffs++;
+
+		if(permission != null) {
+			boolean replace = true;
+
+			if(permission.getName().equalsIgnoreCase("SuperPerms")) {
+				newmsg = newmsg.replace("%rank%", "Incompatible Permission System");
+				replace = false;
 			}
-		}
-		
-		newmsg = newmsg.replace("%staff_online%", staffs + "");
-		
-		if(newmsg.startsWith("%scroller%")) {
-			if(!scrollers.containsKey(msg)) {
-				String snewmsg = msg;
-				snewmsg = snewmsg.replace("%player%", p.getName());
-				snewmsg = snewmsg.replace("%displayname%", p.getDisplayName());
-				snewmsg = snewmsg.replace("%online%", getOnlinePlayers().size() + "");
-				snewmsg = snewmsg.replace("%max_online%", Bukkit.getMaxPlayers() + "");
-				snewmsg = snewmsg.replace("%servername%", Bukkit.getServerName());
-				snewmsg = snewmsg.replace("%deaths%", PvPVariables.getDeaths(p) + "");
-				snewmsg = snewmsg.replace("%kills%", PvPVariables.getKills(p) + "");
-				snewmsg = snewmsg.replace("%rdm_color%", Animation.getRandomColor() + "");
-				snewmsg = snewmsg.replace("%scroller%", "");
-				snewmsg = snewmsg.replace("%x%", (int) p.getLocation().getX() + "");
-				snewmsg = snewmsg.replace("%y%", (int) p.getLocation().getY() + "");
-				snewmsg = snewmsg.replace("%z%", (int) p.getLocation().getZ() + "");
-				snewmsg = snewmsg.replace("%ping%", sTablistAPI.getImpl().getPing(p) + "");
-				snewmsg = snewmsg.replace("%staff_online%", staffs + "");
-				
-				snewmsg = ChatColor.translateAlternateColorCodes('&', snewmsg);
-				
-				Scroller scroller = new Scroller(snewmsg, Tablist.sbcfg.YAML.getInt("UpdateTime") * 20);
-				scroller.start();
-				scrollers.put(msg, scroller);
-			}
-		}
-		
-		newmsg = newmsg.replace("%scroller%", "");
-		
-		if(Bukkit.getPluginManager().isPluginEnabled("Vault")) {
-			Economy economy = null;
-			RegisteredServiceProvider<Economy> economyProvider = Tablist.getPlugin(Tablist.class).getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
-			if(economyProvider != null) {
-				economy = economyProvider.getProvider();
-			}
-			
-			Permission permission = null;
-			RegisteredServiceProvider<Permission> permissionProvider = Tablist.getPlugin(Tablist.class).getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
-			if(permissionProvider != null) {
-				permission = permissionProvider.getProvider();
-			}
-			
-			if(economy != null) {
-				newmsg = newmsg.replace("%money%", economy.getBalance(p) + "");
-			}
-			
-			if(permission != null) {
-				boolean replace = true;
-				if(permission.getName().equalsIgnoreCase("SuperPerms")) {
-					newmsg = newmsg.replace("%rank%", "Incompatible Permission System");
-					replace = false;
-				}
-				if(replace == true) {
-					newmsg = newmsg.replace("%rank%", permission.getPlayerGroups(p)[0]);
-				}
-			}
-			
+
+			if(replace) newmsg = newmsg.replace("%rank%", permission.getPlayerGroups(p)[0]);
 		}
 		
 		if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
@@ -313,12 +192,12 @@ public class VariableManager {
 	
 	public static class Scroller {
 		
-		private int restartTaskID = 0;
-		private int taskID = 0;
-		private int time = 20;
-		private int current = 0;
-		private String text = "";
-		private String newtext = "";
+		private int restartTaskID;
+		private int taskID;
+		private int time;
+		private int current;
+		private String text;
+		private String newtext;
 		
 		public Scroller(String text, int time) {
 			this.text = text + " ";
@@ -331,8 +210,7 @@ public class VariableManager {
 		
 		public void start() {
 			if(!Bukkit.getScheduler().isCurrentlyRunning(taskID)) {
-				taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), new Runnable() {
-					public void run() {
+				taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), () -> {
 						if(current < text.length() + 1) {
 							newtext = Animation.sub(text, 0, current);
 							current++;
@@ -341,7 +219,6 @@ public class VariableManager {
 						if(current == text.length() + 1) {
 							restart();
 						}
-					}
 				}, time, time);
 			}
 		}
@@ -355,11 +232,9 @@ public class VariableManager {
 			current = 0;
 			taskID = 0;
 			if(!Bukkit.getScheduler().isCurrentlyRunning(restartTaskID)) {
-				restartTaskID = Bukkit.getScheduler().runTaskLater(Tablist.getPlugin(Tablist.class), new Runnable() {
-					public void run() {
+				restartTaskID = Bukkit.getScheduler().runTaskLater(Tablist.getPlugin(Tablist.class), () -> {
 						stop();
 						start();
-					}
 				}, 10).getTaskId();
 			}
 		}
@@ -369,15 +244,14 @@ public class VariableManager {
 	public static class Animation {
 		
 		public static int current = 0;
-		public static String text = "Hallo ich bin geil";
+		public static String text = "Test Text.";
 		public static String newtext = "";
 		public static boolean lock = false;
 		
 		public static void scrollTest() {
-			Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), new Runnable() {
-				public void run() {
+			Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), () -> {
 					if(current < text.length() + 1) {
-						if(lock == false) {
+						if(!lock) {
 							newtext = sub(text, 0, current);
 							current++;
 						} else {
@@ -389,8 +263,8 @@ public class VariableManager {
 						lock = true;
 						current--;
 					}
+
 					System.out.println(newtext);
-				}
 			}, 20, 20);
 		}
 		
@@ -399,7 +273,6 @@ public class VariableManager {
 		}
 		
 		public static String sub(String text, int sub) {
-			
 			return text.substring(sub);
 		}
 		
@@ -409,7 +282,7 @@ public class VariableManager {
 		}
 		
 		public static ChatColor getRandomColor() {
-			List<ChatColor> colors = new ArrayList<ChatColor>();
+			List<ChatColor> colors = new ArrayList<>();
 			for(String s : Tablist.getPlugin(Tablist.class).getConfig().getStringList("RandomColors")) {
 				s = s.replace("&", "");
 				colors.add(ChatColor.getByChar(s));

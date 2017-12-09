@@ -44,7 +44,7 @@ public class STLScoreboard {
 		obj.setDisplayName(VariableManager.replace(fc.getString("DisplayName"), p));
 		
 		for(String s : fc.getStringList("Lines")) {
-			String replaced = VariableManager.replaceScoreboard(s, p);
+			String replaced = VariableManager.replace(s, p);
 			
 			if(sTablistAPI.getImpl().compareMinecraftVersionServerIsHigherOrEqual("1.8")) {
 				if(replaced.length() > 40) {
@@ -56,7 +56,7 @@ public class STLScoreboard {
 				}
 			}
 			
-			addScore(obj, VariableManager.replaceScoreboard(replaced, p));
+			addScore(obj, VariableManager.replace(replaced, p));
 		}
 		
 		p.setScoreboard(board);

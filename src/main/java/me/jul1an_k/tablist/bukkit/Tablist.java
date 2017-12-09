@@ -23,7 +23,7 @@ import me.jul1an_k.tablist.bukkit.variables.VariableManager;
 
 public class Tablist extends JavaPlugin {
 	
-	public static ScoreboardConfig sbcfg;
+	private ScoreboardConfig sbcfg;
 	
 	public void onEnable() {
 		long start = System.currentTimeMillis();
@@ -188,7 +188,7 @@ public class Tablist extends JavaPlugin {
 
 		tagUpdateTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), () -> {
 				for(Player all : Bukkit.getOnlinePlayers()) {
-					TabPrefix.getImpl().loadNametag(all);
+					TabPrefix.getImpl().loadNameTag(all);
 				}
 		}, Tablist.getPlugin(Tablist.class).getConfig().getInt("TagAutoUpdate") * 20, Tablist.getPlugin(Tablist.class).getConfig().getInt("TagAutoUpdate") * 20);
 		long stop = System.currentTimeMillis();

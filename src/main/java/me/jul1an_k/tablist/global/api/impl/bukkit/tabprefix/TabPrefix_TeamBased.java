@@ -25,12 +25,9 @@ public class TabPrefix_TeamBased extends TabPrefix {
 	public void setPrefix(Player p, String prefix) {
 		prefix = VariableManager.replace(prefix, p);
 		Scoreboard board = Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard") ? p.getScoreboard() : Bukkit.getScoreboardManager().getMainScoreboard();
-		Team team = board.getTeam(p.getName());
-		if(team == null) {
-			team = board.registerNewTeam(p.getName());
-		}
+		Team team = board.getTeam(p.getName()) == null ? board.registerNewTeam(p.getName()) : board.getTeam(p.getName());
 		
-		team.setPrefix(prefix);
+		team.setPrefix(prefix.substring(0, 16));
 		team.addPlayer(p);
 		
 		if(!Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard")) {
@@ -48,13 +45,9 @@ public class TabPrefix_TeamBased extends TabPrefix {
 	public void setSuffix(Player p, String suffix) {
 		suffix = VariableManager.replace(suffix, p);
 		Scoreboard board = Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard") ? p.getScoreboard() : Bukkit.getScoreboardManager().getMainScoreboard();
-		Team team = board.getTeam(p.getName());
-
-		if(team == null) {
-			team = board.registerNewTeam(p.getName());
-		}
+		Team team = board.getTeam(p.getName()) == null ? board.registerNewTeam(p.getName()) : board.getTeam(p.getName());
 		
-		team.setSuffix(suffix);
+		team.setSuffix(suffix.substring(0, 16));
 		team.addPlayer(p);
 		
 		if(!Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard")) {
@@ -70,11 +63,7 @@ public class TabPrefix_TeamBased extends TabPrefix {
 	
 	public void unset(OfflinePlayer p) {
 		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
-		Team team = board.getTeam(p.getName());
-		
-		if(team != null) {
-			board.getTeam(p.getName()).unregister();
-		}
+		Team team = board.getTeam(p.getName()) == null ? board.registerNewTeam(p.getName()) : board.getTeam(p.getName());
 		
 		if(!Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard")) {
 			for(Player all : Bukkit.getOnlinePlayers()) {
@@ -92,8 +81,8 @@ public class TabPrefix_TeamBased extends TabPrefix {
 		int sortID = getSortID(group);
 		String groupName = "0" + (sortID < 10 ? ("0" + sortID) : sortID) + group;
 		
-		prefix = ChatColor.translateAlternateColorCodes('&', prefix);
-		suffix = ChatColor.translateAlternateColorCodes('&', suffix);
+		prefix = ChatColor.translateAlternateColorCodes('&', prefix).substring(0, 16);
+		suffix = ChatColor.translateAlternateColorCodes('&', suffix).substring(0, 16);
 		
 		if(Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard")) {
 			for(Player all : Bukkit.getOnlinePlayers()) {
@@ -119,8 +108,8 @@ public class TabPrefix_TeamBased extends TabPrefix {
 		int sortID = getSortID(group);
 		String groupName = "0" + (sortID < 10 ? ("0" + sortID) : sortID) + group;
 		
-		prefix = ChatColor.translateAlternateColorCodes('&', prefix);
-		suffix = ChatColor.translateAlternateColorCodes('&', suffix);
+		prefix = ChatColor.translateAlternateColorCodes('&', prefix).substring(0, 16);
+		suffix = ChatColor.translateAlternateColorCodes('&', suffix).substring(0, 16);
 		
 		Scoreboard board = p.getScoreboard();
 		Team team = board.getTeam(groupName) == null ? board.registerNewTeam(groupName) : board.getTeam(groupName);
@@ -156,15 +145,17 @@ public class TabPrefix_TeamBased extends TabPrefix {
 	
 	private int getSortID(String group) {
 		List<String> groups = groupsFile.getYaml().getStringList("GroupSort");
+
 		for(int i = 0; i < groups.size(); i++) {
 			if(groups.get(i).equalsIgnoreCase(group)) {
 				return i;
 			}
 		}
+
 		return 99;
 	}
 	
-	public void loadNametag(Player p) {
+	public void loadNameTag(Player p) {
 		boolean block = false;
 		if(playersFile.getYaml().contains(p.getUniqueId() + ".Prefix")) {
 			setPrefix(p, playersFile.getYaml().getString(p.getUniqueId() + ".Prefix"));
@@ -184,18 +175,13 @@ public class TabPrefix_TeamBased extends TabPrefix {
 			Permission permission = null;
 			RegisteredServiceProvider<Permission> permissionProvider = Tablist.getPlugin(Tablist.class).getServer().getServicesManager().getRegistration(Permission.class);
 
-			if(permissionProvider != null)
-				permission = permissionProvider.getProvider();
+			if(permissionProvider != null) permission = permissionProvider.getProvider();
 
-			if(permission == null)
-				return;
+			if(permission == null) return;
 
-			if(permission.getName().equals("SuperPerms"))
-				return;
+			if(permission.getName().equals("SuperPerms")) return;
 
-			if((groupsFile.getYaml().contains(permission.getPlayerGroups(p)[0] + ".Prefix") | groupsFile.getYaml().contains(permission.getPlayerGroups(p)[0] + ".Suffix"))) {
-				setInGroup(p, permission.getPlayerGroups(p)[0]);
-			}
+			if((groupsFile.getYaml().contains(permission.getPlayerGroups(p)[0] + ".Prefix") | groupsFile.getYaml().contains(permission.getPlayerGroups(p)[0] + ".Suffix"))) setInGroup(p, permission.getPlayerGroups(p)[0]);
 		}
 	}
 

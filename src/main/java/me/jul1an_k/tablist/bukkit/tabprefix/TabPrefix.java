@@ -38,7 +38,7 @@ public abstract class TabPrefix {
 	
 	public abstract void setInGroup(Player p, String group);
 	
-	public abstract void loadNametag(Player p);
+	public abstract void loadNameTag(Player p);
 
 	public static TabPrefix getImpl() {
 		return implemantation;
