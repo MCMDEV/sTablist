@@ -1,6 +1,7 @@
 package me.jul1an_k.tablist.global.api.impl.bukkit.tablistapi;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -9,15 +10,34 @@ import me.jul1an_k.tablist.bukkit.sTablistAPI;
 import me.jul1an_k.tablist.bukkit.variables.VariableManager;
 
 public class TablistAPI_ProtocolHack extends sTablistAPI {
-	
-	private Class<?> chatserial;
-	private Class<?> title;
-	private Class<?> enumtitleaction;
+
+	private Class<?> chatSerializer;
+	private Class<?> packetPlayOutTitle;
+	private Class<?> enumTitleAction;
+	private Class<?> packet;
+	private Class<?> craftPlayer;
+	private Class<?> entityPlayer;
+	private Class<?> playerConnection;
+
+	private Method chatSerializer$a;
+	private Method craftPlayer$getHandle;
+	private Method playerConnection$sendPacket;
 	
 	public TablistAPI_ProtocolHack() {
-		chatserial = getNMSClass("ChatSerializer");
-		title = getProtocolInjectorClass("PacketTitle");
-		enumtitleaction = getProtocolInjectorClass("PacketTitle$Action");
+		this.chatSerializer = getNMSClass("ChatSerializer");
+		this.packetPlayOutTitle = getProtocolInjectorClass("PacketTitle");
+		this.enumTitleAction = getProtocolInjectorClass("PacketTitle$Action");
+
+		this.packet = getNMSClass("Packet");
+		this.craftPlayer = getNMSClass("CraftPlayer");
+		this.entityPlayer = getNMSClass("EntityPlayer");
+		this.playerConnection = getNMSClass("PlayerConnection");
+
+		try {
+			this.chatSerializer$a = chatSerializer.getMethod("a", String.class);
+			this.craftPlayer$getHandle = craftPlayer.getMethod("getHandle");
+			this.playerConnection$sendPacket = playerConnection.getMethod("sendPacket", packet);
+		} catch(NoSuchMethodException exception) {}
 	}
 	
 	public void sendTabList(Player player, String header, String footer) {
@@ -31,10 +51,10 @@ public class TablistAPI_ProtocolHack extends sTablistAPI {
 			Object packet = getProtocolInjectorClass("PacketTabHeader").newInstance();
 			
 			if(header != null)
-				getField(packet.getClass().getDeclaredField("header")).set(packet, chatserial.getMethod("a", String.class).invoke(null, "{\"text\": \"" + header + "\"}"));
+				getField(packet.getClass().getDeclaredField("header")).set(packet, this.chatSerializer$a.invoke(null, "{\"text\": \"" + header + "\"}"));
 			
 			if(footer != null)
-				getField(packet.getClass().getDeclaredField("footer")).set(packet, chatserial.getMethod("a", String.class).invoke(null, "{\"text\": \"" + footer + "\"}"));
+				getField(packet.getClass().getDeclaredField("footer")).set(packet, this.chatSerializer$a.invoke(null, "{\"text\": \"" + footer + "\"}"));
 			
 			sendPacket(player, packet);
 		} catch(Exception e) {
@@ -47,7 +67,7 @@ public class TablistAPI_ProtocolHack extends sTablistAPI {
 			message = VariableManager.replace(message, player);
 		
 		try {
-			sendPacket(player, "PacketPlayOutChat", new Class[] { getNMSClass("IChatBaseComponent"), byte.class }, chatserial.getMethod("a", String.class).invoke(null, "{\"text\": \"" + message + "\"}"), (byte) 2);
+			sendPacket(player, "PacketPlayOutChat", new Class[] { getNMSClass("IChatBaseComponent"), byte.class }, this.chatSerializer$a.invoke(null, "{\"text\": \"" + message + "\"}"), (byte) 2);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -58,28 +78,28 @@ public class TablistAPI_ProtocolHack extends sTablistAPI {
 		subtitle = VariableManager.replace(subtitle, player);
 		
 		try {
-			Object t = this.title.newInstance();
+			Object t = this.packetPlayOutTitle.newInstance();
 			Field f = t.getClass().getDeclaredField("action");
 			f.setAccessible(true);
-			f.set(t, getField(enumtitleaction.getDeclaredField("TITLE")).get(null));
+			f.set(t, getField(this.enumTitleAction.getDeclaredField("TITLE")).get(null));
 			f = t.getClass().getDeclaredField("text");
 			f.setAccessible(true);
-			f.set(t, chatserial.getMethod("a", String.class).invoke(null, "{\"text\": \"" + title + "\"}"));
+			f.set(t, this.chatSerializer$a.invoke(null, "{\"text\": \"" + title + "\"}"));
 			sendPacket(player, t);
 			
-			t = this.title.newInstance();
+			t = this.packetPlayOutTitle.newInstance();
 			f = t.getClass().getDeclaredField("action");
 			f.setAccessible(true);
-			f.set(t, getField(enumtitleaction.getDeclaredField("SUBTITLE")).get(null));
+			f.set(t, getField(this.enumTitleAction.getDeclaredField("SUBTITLE")).get(null));
 			f = t.getClass().getDeclaredField("text");
 			f.setAccessible(true);
-			f.set(t, chatserial.getMethod("a", String.class).invoke(null, "{\"text\": \"" + subtitle + "\"}"));
+			f.set(t, this.chatSerializer$a.invoke(null, "{\"text\": \"" + subtitle + "\"}"));
 			sendPacket(player, t);
 			
-			t = this.title.newInstance();
+			t = this.packetPlayOutTitle.newInstance();
 			f = t.getClass().getDeclaredField("action");
 			f.setAccessible(true);
-			f.set(t, getField(enumtitleaction.getDeclaredField("TIMES")).get(null));
+			f.set(t, getField(this.enumTitleAction.getDeclaredField("TIMES")).get(null));
 			f = t.getClass().getDeclaredField("fadeIn");
 			f.setAccessible(true);
 			f.set(t, fadein);
@@ -92,51 +112,51 @@ public class TablistAPI_ProtocolHack extends sTablistAPI {
 			sendPacket(player, t);
 			
 			if(clear) {
-				t = this.title.newInstance();
+				t = this.packetPlayOutTitle.newInstance();
 				f = t.getClass().getDeclaredField("action");
 				f.setAccessible(true);
-				f.set(t, getField(enumtitleaction.getDeclaredField("CLEAR")).get(null));
+				f.set(t, getField(this.enumTitleAction.getDeclaredField("CLEAR")).get(null));
 				sendPacket(player, t);
 			}
 			
 			if(reset) {
-				t = this.title.newInstance();
+				t = this.packetPlayOutTitle.newInstance();
 				f = t.getClass().getDeclaredField("action");
 				f.setAccessible(true);
-				f.set(t, getField(enumtitleaction.getDeclaredField("RESET")).get(null));
+				f.set(t, getField(this.enumTitleAction.getDeclaredField("RESET")).get(null));
 				sendPacket(player, t);
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void sendPacket(Player p, Object packet) {
 		try {
 			Object nmsPlayer = getNMSPlayer(p);
-			Object connection = nmsPlayer.getClass().getField("playerConnection").get(nmsPlayer);
-			connection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(connection, packet);
+			Object connection = entityPlayer.getField("playerConnection").get(nmsPlayer);
+			playerConnection$sendPacket.invoke(connection, packet);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void sendPacket(Player p, String packetName, Class<?>[] parameterclass, Object... parameters) {
 		try {
 			Object nmsPlayer = getNMSPlayer(p);
-			Object connection = nmsPlayer.getClass().getField("playerConnection").get(nmsPlayer);
-			Object packet = Class.forName(nmsPlayer.getClass().getPackage().getName() + "." + packetName).getConstructor(parameterclass).newInstance(parameters);
-			connection.getClass().getMethod("sendPacket", getNMSClass("Packet")).invoke(connection, packet);
+			Object connection = entityPlayer.getField("playerConnection").get(nmsPlayer);
+			Object packet = getNMSClass(packetName).getConstructor(parameterclass).newInstance(parameters);
+			connection.getClass().getMethod("sendPacket", this.packet).invoke(connection, packet);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public String getVersion() {
 		String name = Bukkit.getServer().getClass().getPackage().getName();
 		return name.substring(name.lastIndexOf('.') + 1) + ".";
 	}
-	
+
 	private Class<?> getNMSClass(String className) {
 		String fullName = "net.minecraft.server." + getVersion() + className;
 		Class<?> clazz = null;
@@ -149,7 +169,7 @@ public class TablistAPI_ProtocolHack extends sTablistAPI {
 		}
 		return clazz;
 	}
-	
+
 	private Class<?> getProtocolInjectorClass(String className) {
 		String fullName = "org.spigotmc.ProtocolInjector$" + className;
 		Class<?> clazz = null;
@@ -160,16 +180,16 @@ public class TablistAPI_ProtocolHack extends sTablistAPI {
 		}
 		return clazz;
 	}
-	
+
 	private Object getNMSPlayer(Player p) {
 		try {
-			return p.getClass().getMethod("getHandle").invoke(p);
+			return craftPlayer$getHandle.invoke(p);
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
-	
+
 	private Field getField(Field f) {
 		f.setAccessible(true);
 		return f;
@@ -181,7 +201,7 @@ public class TablistAPI_ProtocolHack extends sTablistAPI {
 		Object nmsPlayer = getNMSPlayer(player);
 
 		try {
-			Field ping = nmsPlayer.getClass().getField("ping");
+			Field ping = getField(entityPlayer.getField("ping"));
 
 			pingInt = ping.getInt(nmsPlayer);
 		} catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
