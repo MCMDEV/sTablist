@@ -64,7 +64,10 @@ public class TabPrefix_TeamBased extends TabPrefix {
 	public void unset(OfflinePlayer p) {
 		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
 		Team team = board.getTeam(p.getName()) == null ? board.registerNewTeam(p.getName()) : board.getTeam(p.getName());
-		
+
+		team.setPrefix("");
+		team.setSuffix("");
+
 		if(!Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard")) {
 			for(Player all : Bukkit.getOnlinePlayers()) {
 				all.setScoreboard(board);
@@ -84,8 +87,8 @@ public class TabPrefix_TeamBased extends TabPrefix {
 		prefix = ChatColor.translateAlternateColorCodes('&', prefix);
 		suffix = ChatColor.translateAlternateColorCodes('&', suffix);
 
-		if(prefix.length() > 15) prefix.substring(0, 16);
-		if(suffix.length() > 15) suffix.substring(0, 16);
+		if(prefix.length() > 15) prefix = prefix.substring(0, 16);
+		if(suffix.length() > 15) suffix = suffix.substring(0, 16);
 		
 		if(Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard")) {
 			for(Player all : Bukkit.getOnlinePlayers()) {
@@ -111,8 +114,11 @@ public class TabPrefix_TeamBased extends TabPrefix {
 		int sortID = getSortID(group);
 		String groupName = "0" + (sortID < 10 ? ("0" + sortID) : sortID) + group;
 		
-		prefix = ChatColor.translateAlternateColorCodes('&', prefix).substring(0, 16);
-		suffix = ChatColor.translateAlternateColorCodes('&', suffix).substring(0, 16);
+		prefix = ChatColor.translateAlternateColorCodes('&', prefix);
+		suffix = ChatColor.translateAlternateColorCodes('&', suffix);
+
+		if(prefix.length() > 15) prefix = prefix.substring(0, 16);
+		if(suffix.length() > 15) suffix = suffix.substring(0, 16);
 		
 		Scoreboard board = p.getScoreboard();
 		Team team = board.getTeam(groupName) == null ? board.registerNewTeam(groupName) : board.getTeam(groupName);

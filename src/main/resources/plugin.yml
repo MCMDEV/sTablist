@@ -1,6 +1,6 @@
 name: sTablist
 author: Jul1an_K
-version: 3.0.0-pre4
+version: 3.0.0-pre5
 softDepend: [PlaceholderAPI, Vault]
 main: me.jul1an_k.tablist.bukkit.Tablist
 
