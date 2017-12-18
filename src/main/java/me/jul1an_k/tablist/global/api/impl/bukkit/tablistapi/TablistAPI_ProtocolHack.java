@@ -29,7 +29,7 @@ public class TablistAPI_ProtocolHack extends sTablistAPI {
 		this.enumTitleAction = getProtocolInjectorClass("PacketTitle$Action");
 
 		this.packet = getNMSClass("Packet");
-		this.craftPlayer = getNMSClass("CraftPlayer");
+		this.craftPlayer = getOBCClass("CraftPlayer");
 		this.entityPlayer = getNMSClass("EntityPlayer");
 		this.playerConnection = getNMSClass("PlayerConnection");
 
@@ -177,6 +177,19 @@ public class TablistAPI_ProtocolHack extends sTablistAPI {
 			clazz = Class.forName(fullName);
 		} catch(ClassNotFoundException e) {
 			System.err.println("[sTablistAPI] Can't find the Class '" + fullName + "'!");
+		}
+		return clazz;
+	}
+	
+	private Class<?> getOBCClass(String className) {
+		String fullName = "org.bukkit.craftbukkit." + getVersion() + className;
+		Class<?> clazz = null;
+		try {
+			clazz = Class.forName(fullName);
+		} catch(ClassNotFoundException e) {
+			System.err.println("[sTablistAPI] Can't find the Class '" + fullName + "'!");
+		} catch(Exception e) {
+			e.printStackTrace();
 		}
 		return clazz;
 	}
