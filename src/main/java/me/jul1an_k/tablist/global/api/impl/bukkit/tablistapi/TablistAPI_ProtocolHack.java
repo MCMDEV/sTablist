@@ -29,7 +29,7 @@ public class TablistAPI_ProtocolHack extends sTablistAPI {
 		this.enumTitleAction = getProtocolInjectorClass("PacketTitle$Action");
 
 		this.packet = getNMSClass("Packet");
-		this.craftPlayer = getOBCClass("CraftPlayer");
+		this.craftPlayer = getOBCClass("entity.CraftPlayer");
 		this.entityPlayer = getNMSClass("EntityPlayer");
 		this.playerConnection = getNMSClass("PlayerConnection");
 
