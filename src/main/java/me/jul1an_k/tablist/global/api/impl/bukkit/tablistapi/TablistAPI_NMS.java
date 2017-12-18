@@ -37,7 +37,7 @@ public class TablistAPI_NMS extends sTablistAPI {
 
 		this.chatMessageType = getNMSClass("ChatMessageType");
 		this.packet = getNMSClass("Packet");
-		this.craftPlayer = getOBCClass("CraftPlayer");
+		this.craftPlayer = getOBCClass("entity.CraftPlayer");
 		this.entityPlayer = getNMSClass("EntityPlayer");
 		this.playerConnection = getNMSClass("PlayerConnection");
 
