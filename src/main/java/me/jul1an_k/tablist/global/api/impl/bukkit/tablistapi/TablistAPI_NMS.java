@@ -37,7 +37,7 @@ public class TablistAPI_NMS extends sTablistAPI {
 
 		this.chatMessageType = getNMSClass("ChatMessageType");
 		this.packet = getNMSClass("Packet");
-		this.craftPlayer = getNMSClass("CraftPlayer");
+		this.craftPlayer = getOBCClass("entity.CraftPlayer");
 		this.entityPlayer = getNMSClass("EntityPlayer");
 		this.playerConnection = getNMSClass("PlayerConnection");
 
@@ -172,6 +172,19 @@ public class TablistAPI_NMS extends sTablistAPI {
 	
 	private Class<?> getNMSClass(String className) {
 		String fullName = "net.minecraft.server." + getVersion() + className;
+		Class<?> clazz = null;
+		try {
+			clazz = Class.forName(fullName);
+		} catch(ClassNotFoundException e) {
+			System.err.println("[sTablistAPI] Can't find the Class '" + fullName + "'!");
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return clazz;
+	}
+	
+	private Class<?> getOBCClass(String className) {
+		String fullName = "org.bukkit.craftbukkit." + getVersion() + className;
 		Class<?> clazz = null;
 		try {
 			clazz = Class.forName(fullName);
