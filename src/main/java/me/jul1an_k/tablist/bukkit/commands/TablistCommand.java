@@ -153,7 +153,7 @@ public class TablistCommand implements CommandExecutor {
 				Player p = Bukkit.getPlayer(args[1]);
 				String msg = "";
 				for(int i = 2; i < args.length; i++) {
-					msg = msg + args[i] + " ";
+					msg += args[i] + " ";
 				}
 				if(msg.length() > 16) {
 					cs.sendMessage("§4The Prefix has a maximal length of 16!");
@@ -178,7 +178,6 @@ public class TablistCommand implements CommandExecutor {
 				TabPrefix.getImpl().setSuffix(p, msg);
 				cs.sendMessage("§aThe Suffix of §6" + p.getName() + " §awas set to §6" + msg);
 			}
-		} else if(args.length >= 4) {
 			if(args[0].equalsIgnoreCase("msg") | args[0].equalsIgnoreCase("message") | args[0].equalsIgnoreCase("pmsg")) {
 				if(!cs.hasPermission("sTablist.msg")) {
 					cs.sendMessage("§4You don't have permission to use this command!");
