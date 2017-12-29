@@ -27,14 +27,14 @@ public class TablistCommand implements CommandExecutor {
 		if(args.length == 1) {
 			if(args[0].equalsIgnoreCase("regenConfig")) {
 				if(!cs.hasPermission("sTablist.regenConfig")) {
-					cs.sendMessage("§4You don't have permission to use this command!");
+					cs.sendMessage("Â§4You don't have permission to use this command!");
 					return true;
 				}
 				
 				File f = new File("plugins/sTablist", "config.yml");
 				
 				if(!f.exists()) {
-					cs.sendMessage("§cThe config doesn't exists.");
+					cs.sendMessage("Â§cThe config doesn't exists.");
 					return true;
 				}
 				
@@ -43,10 +43,10 @@ public class TablistCommand implements CommandExecutor {
 				
 				Tablist.getPlugin(Tablist.class).saveDefaultConfig();
 				
-				cs.sendMessage("§aConfig regenerated.");
+				cs.sendMessage("Â§aConfig regenerated.");
 			} else if(args[0].equalsIgnoreCase("copyFromPermissionSystem")) {
 				if(!cs.hasPermission("sTablist.copyFromPermissionSystem")) {
-					cs.sendMessage("§4You don't have permission to use this command!");
+					cs.sendMessage("Â§4You don't have permission to use this command!");
 					return true;
 				}
 				
@@ -64,12 +64,12 @@ public class TablistCommand implements CommandExecutor {
 					}
 					
 					if(permission == null) {
-						cs.sendMessage("§cCan't find a PermissionSystem");
+						cs.sendMessage("Â§cCan't find a PermissionSystem");
 						return true;
 					}
 					
 					if(chat == null) {
-						cs.sendMessage("§cCan't find a ChatSystem");
+						cs.sendMessage("Â§cCan't find a ChatSystem");
 						return true;
 					}
 					
@@ -94,27 +94,27 @@ public class TablistCommand implements CommandExecutor {
 					
 					cfg.set("GroupSort", Arrays.asList(permission.getGroups()[0]));
 					
-					cs.sendMessage("§aSuccessfully imported all Groups from " + permission.getName());
+					cs.sendMessage("Â§aSuccessfully imported all Groups from " + permission.getName());
 				} else {
-					cs.sendMessage("§cCan't find Vault!");
+					cs.sendMessage("Â§cCan't find Vault!");
 				}
 			}
 		} else if(args.length == 2) {
 			if(args[0].equalsIgnoreCase("del") || args[0].equalsIgnoreCase("delsuffix") || args[0].equalsIgnoreCase("delprefix")) {
 				if(!cs.hasPermission("sTablist.del")) {
-					cs.sendMessage("§4You don't have permission to use this command!");
+					cs.sendMessage("Â§4You don't have permission to use this command!");
 					return true;
 				}
 				
 				OfflinePlayer p = Bukkit.getOfflinePlayer(args[1]);
 				
 				TabPrefix.getImpl().unset(p);
-				cs.sendMessage("§aThe Prefix and Suffix of §6" + p.getName() + " §awas deleted.");
+				cs.sendMessage("Â§aThe Prefix and Suffix of Â§6" + p.getName() + " Â§awas deleted.");
 			}
 		} else if(args.length >= 3) {
 			if(args[0].equalsIgnoreCase("bc") | args[0].equalsIgnoreCase("broadcast")) {
 				if(!cs.hasPermission("sTablist.broadcast")) {
-					cs.sendMessage("§4You don't have permission to use this command!");
+					cs.sendMessage("Â§4You don't have permission to use this command!");
 					return true;
 				}
 				if(args[1].equalsIgnoreCase("Title")) {
@@ -147,23 +147,23 @@ public class TablistCommand implements CommandExecutor {
 				}
 			} else if(args[0].equalsIgnoreCase("setPrefix")) {
 				if(!cs.hasPermission("sTablist.setPrefix")) {
-					cs.sendMessage("§4You don't have permission to use this command!");
+					cs.sendMessage("Â§4You don't have permission to use this command!");
 					return true;
 				}
 				Player p = Bukkit.getPlayer(args[1]);
 				String msg = "";
 				for(int i = 2; i < args.length; i++) {
-					msg = msg + args[i] + " ";
+					msg += args[i] + " ";
 				}
 				if(msg.length() > 16) {
-					cs.sendMessage("§4The Prefix has a maximal length of 16!");
+					cs.sendMessage("Â§4The Prefix has a maximal length of 16!");
 					return true;
 				}
 				TabPrefix.getImpl().setPrefix(p, msg);
-				cs.sendMessage("§aThe Prefix of §6" + p.getName() + " §awas set to §6" + msg);
+				cs.sendMessage("Â§aThe Prefix of Â§6" + p.getName() + " Â§awas set to Â§6" + msg);
 			} else if(args[0].equalsIgnoreCase("setSuffix")) {
 				if(!cs.hasPermission("sTablist.setSuffix")) {
-					cs.sendMessage("§4You don't have permission to use this command!");
+					cs.sendMessage("Â§4You don't have permission to use this command!");
 					return true;
 				}
 				Player p = Bukkit.getPlayer(args[1]);
@@ -172,16 +172,15 @@ public class TablistCommand implements CommandExecutor {
 					msg = msg + args[i] + " ";
 				}
 				if(msg.length() > 16) {
-					cs.sendMessage("§4The Suffix has a maximal length of 16!");
+					cs.sendMessage("Â§4The Suffix has a maximal length of 16!");
 					return true;
 				}
 				TabPrefix.getImpl().setSuffix(p, msg);
-				cs.sendMessage("§aThe Suffix of §6" + p.getName() + " §awas set to §6" + msg);
+				cs.sendMessage("Â§aThe Suffix of Â§6" + p.getName() + " Â§awas set to Â§6" + msg);
 			}
-		} else if(args.length >= 4) {
 			if(args[0].equalsIgnoreCase("msg") | args[0].equalsIgnoreCase("message") | args[0].equalsIgnoreCase("pmsg")) {
 				if(!cs.hasPermission("sTablist.msg")) {
-					cs.sendMessage("§4You don't have permission to use this command!");
+					cs.sendMessage("Â§4You don't have permission to use this command!");
 					return true;
 				}
 				Player p = Bukkit.getPlayer(args[1]);
@@ -209,16 +208,16 @@ public class TablistCommand implements CommandExecutor {
 				}
 			}
 		} else {
-			cs.sendMessage("§b[]======[] §6sTablist §7- §6HELP §b[]======[]");
-			cs.sendMessage("§e/sTablist bc|broadcast <Type> <Message>");
-			cs.sendMessage("§e/sTablist msg|message|pmsg <Player> <Type> <Message>");
-			cs.sendMessage("§e/sTablist setPrefix <Player> <Prefix>");
-			cs.sendMessage("§e/sTablist setSuffix <Player> <Suffix>");
-			cs.sendMessage("§e/sTablist del <Player>");
-			cs.sendMessage("§e/sTablist regenConfig");
-			cs.sendMessage("§e/sTablist copyFromPermissionSystem");
-			cs.sendMessage("§eAvailable Types: §7Title§8, §7Subtitle§8, §7ActionBar");
-			cs.sendMessage("§b[]======[] §6sTablist §7- §6HELP §b[]======[]");
+			cs.sendMessage("Â§b[]======[] Â§6sTablist Â§7- Â§6HELP Â§b[]======[]");
+			cs.sendMessage("Â§e/sTablist bc|broadcast <Type> <Message>");
+			cs.sendMessage("Â§e/sTablist msg|message|pmsg <Player> <Type> <Message>");
+			cs.sendMessage("Â§e/sTablist setPrefix <Player> <Prefix>");
+			cs.sendMessage("Â§e/sTablist setSuffix <Player> <Suffix>");
+			cs.sendMessage("Â§e/sTablist del <Player>");
+			cs.sendMessage("Â§e/sTablist regenConfig");
+			cs.sendMessage("Â§e/sTablist copyFromPermissionSystem");
+			cs.sendMessage("Â§eAvailable Types: Â§7TitleÂ§8, Â§7SubtitleÂ§8, Â§7ActionBar");
+			cs.sendMessage("Â§b[]======[] Â§6sTablist Â§7- Â§6HELP Â§b[]======[]");
 		}
 		return true;
 	}
