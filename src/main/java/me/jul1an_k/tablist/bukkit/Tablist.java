@@ -163,13 +163,13 @@ public class Tablist extends JavaPlugin {
 		if(p.getGameMode() == GameMode.SPECTATOR) {
 			for(Player all : Bukkit.getOnlinePlayers()) {
 				if(all.canSee(p)) {
-					all.hidePlayer(p);
+					all.hidePlayer(getPlugin(Tablist.class), p);
 				}
 			}
 		} else {
 			for(Player all : Bukkit.getOnlinePlayers()) {
 				if(!all.canSee(p)) {
-					all.showPlayer(p);
+					all.showPlayer(getPlugin(Tablist.class), p);
 				}
 			}
 		}
