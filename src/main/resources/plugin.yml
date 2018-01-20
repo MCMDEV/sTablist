@@ -6,9 +6,6 @@ main: me.jul1an_k.tablist.bukkit.Tablist
 
 
 commands:
-  stabreload:
-    description: Reload the Configuration
-    usage: /<command>
   settab:
     description: Set Header or Footer 
     usage: /<command>

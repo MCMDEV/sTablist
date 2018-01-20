@@ -44,6 +44,26 @@ public class TablistCommand implements CommandExecutor {
 				Tablist.getPlugin(Tablist.class).saveDefaultConfig();
 				
 				cs.sendMessage("§aConfig regenerated.");
+			} else if(args[0].equalsIgnoreCase("reload")) {
+				if(!cs.hasPermission("sTablist.reload")) {
+					cs.sendMessage("§4You don't have permission to use this command!");
+					return true;
+				}
+
+				Tablist.getPlugin(Tablist.class).reloadConfig();
+
+				Tablist.stopUpdate();
+				Tablist.startUpdate();
+
+				for(String group : TabPrefix.getGroupsFile().getYaml().getConfigurationSection("").getKeys(false)) {
+					if(group.equalsIgnoreCase("GroupSort")) {
+						continue;
+					}
+
+					TabPrefix.getImpl().setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"));
+				}
+
+				cs.sendMessage("§aSuccessfully reloaded the Configuration File!");
 			} else if(args[0].equalsIgnoreCase("copyFromPermissionSystem")) {
 				if(!cs.hasPermission("sTablist.copyFromPermissionSystem")) {
 					cs.sendMessage("§4You don't have permission to use this command!");
@@ -216,6 +236,7 @@ public class TablistCommand implements CommandExecutor {
 			cs.sendMessage("§e/sTablist del <Player>");
 			cs.sendMessage("§e/sTablist regenConfig");
 			cs.sendMessage("§e/sTablist copyFromPermissionSystem");
+			cs.sendMessage("§e/sTablist reload");
 			cs.sendMessage("§eAvailable Types: §7Title§8, §7Subtitle§8, §7ActionBar");
 			cs.sendMessage("§b[]======[] §6sTablist §7- §6HELP §b[]======[]");
 		}

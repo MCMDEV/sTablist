@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.jul1an_k.tablist.bukkit.commands.InfoCommand;
-import me.jul1an_k.tablist.bukkit.commands.TabReloadCommand;
 import me.jul1an_k.tablist.bukkit.commands.TabSetCommand;
 import me.jul1an_k.tablist.bukkit.commands.TablistCommand;
 import me.jul1an_k.tablist.bukkit.listener.Join_Listener;
@@ -76,7 +75,6 @@ public class Tablist extends JavaPlugin {
 			Bukkit.getPluginManager().registerEvents(new VariableManager.PvPVariables(), this);
 		}
 
-		this.getCommand("stabreload").setExecutor(new TabReloadCommand());
 		this.getCommand("settab").setExecutor(new TabSetCommand());
 		this.getCommand("update").setExecutor(new FileUpdate());
 		this.getCommand("stabinfo").setExecutor(new InfoCommand());
