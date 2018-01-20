@@ -3,6 +3,7 @@ package me.jul1an_k.tablist.bukkit.commands;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,6 +11,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -19,7 +21,7 @@ import me.jul1an_k.tablist.bukkit.Tablist;
 import me.jul1an_k.tablist.bukkit.sTablistAPI;
 import me.jul1an_k.tablist.bukkit.tabprefix.TabPrefix;
 
-public class TablistCommand implements CommandExecutor {
+public class TablistCommand implements CommandExecutor, TabCompleter {
 	
 	@SuppressWarnings("deprecation")
 	@Override
@@ -242,5 +244,22 @@ public class TablistCommand implements CommandExecutor {
 		}
 		return true;
 	}
-	
+
+	@Override
+	public List<String> onTabComplete(CommandSender cs, Command command, String label, String[] args) {
+		if(args.length == 0) {
+			return Arrays.asList("broadcast", "message", "setprefix", "setsuffix", "del", "regenconfig", "copyfrompermissionsystem", "reload");
+		} else if(args.length == 1) {
+			if(args[0].equalsIgnoreCase("bc") || args[0].equalsIgnoreCase("broadcast")) {
+				return Arrays.asList("title", "subtitle", "actionbar");
+			}
+		} else if(args.length == 2) {
+			if(args[0].equalsIgnoreCase("msg") || args[0].equalsIgnoreCase("message") || args[0].equalsIgnoreCase("pmsg")) {
+				return Arrays.asList("title", "subtitle", "actionbar");
+			}
+		}
+
+		return null;
+	}
+
 }

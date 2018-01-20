@@ -79,6 +79,7 @@ public class Tablist extends JavaPlugin {
 		this.getCommand("update").setExecutor(new FileUpdate());
 		this.getCommand("stabinfo").setExecutor(new InfoCommand());
 		this.getCommand("stablist").setExecutor(new TablistCommand());
+		this.getCommand("stablist").setTabCompleter(new TablistCommand());
 		startUpdate();
 		startTagUpdate();
 		
