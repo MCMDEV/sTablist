@@ -78,6 +78,7 @@
     </dependencies>
 
     <build>
+        <finalName>sTablist</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -88,6 +89,27 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/plugin.yml</include>
+                    <include>**/bungee.yml</include>
+                    <include>**/config.yml</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/plugin.yml</exclude>
+                    <exclude>**/bungee.yml</exclude>
+                    <exclude>**/config.yml</exclude>
+                </excludes>
+            </resource>
+        </resources>
     </build>
+
 
 </project>

@@ -53,4 +53,4 @@ RandomColors:
 
 UseExternalScoreboard: false
 
-ConfigVersion: '3.0.0-rc1'
+ConfigVersion: '${project.version}'

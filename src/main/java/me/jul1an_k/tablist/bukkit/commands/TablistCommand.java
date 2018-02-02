@@ -26,6 +26,11 @@ public class TablistCommand implements CommandExecutor, TabCompleter {
 	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender cs, Command cmd, String label, String[] args) {
+		if(!cs.hasPermission("sTablist.help")) {
+			cs.sendMessage("§4You don't have permission to use this command!");
+			return true;
+		}
+
 		if(args.length == 1) {
 			if(args[0].equalsIgnoreCase("regenConfig")) {
 				if(!cs.hasPermission("sTablist.regenConfig")) {
@@ -139,30 +144,21 @@ public class TablistCommand implements CommandExecutor, TabCompleter {
 					cs.sendMessage("§4You don't have permission to use this command!");
 					return true;
 				}
+
+				args = Arrays.copyOfRange(args, 2, args.length);
+
+				String msg = String.join(" ", args);
+				msg = ChatColor.translateAlternateColorCodes('&', msg);
+
 				if(args[1].equalsIgnoreCase("Title")) {
-					String msg = "";
-					for(int i = 2; i < args.length; i++) {
-						msg = msg + args[i] + " ";
-					}
-					msg = ChatColor.translateAlternateColorCodes('&', msg);
 					for(Player all : Bukkit.getOnlinePlayers()) {
 						sTablistAPI.getImpl().sendTitle(all, msg, "", 5, 20, 5, false, false);
 					}
 				} else if(args[1].equalsIgnoreCase("Subtitle")) {
-					String msg = "";
-					for(int i = 2; i < args.length; i++) {
-						msg = msg + args[i] + " ";
-					}
-					msg = ChatColor.translateAlternateColorCodes('&', msg);
 					for(Player all : Bukkit.getOnlinePlayers()) {
 						sTablistAPI.getImpl().sendTitle(all, "", msg, 5, 20, 5, false, false);
 					}
 				} else if(args[1].equalsIgnoreCase("ActionBar")) {
-					String msg = "";
-					for(int i = 2; i < args.length; i++) {
-						msg = msg + args[i] + " ";
-					}
-					msg = ChatColor.translateAlternateColorCodes('&', msg);
 					for(Player all : Bukkit.getOnlinePlayers()) {
 						sTablistAPI.getImpl().sendActionBar(all, msg);
 					}

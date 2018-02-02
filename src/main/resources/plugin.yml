@@ -1,6 +1,6 @@
 name: sTablist
 author: Jul1an_K
-version: 3.0.0-rc1
+version: ${project.version}
 softDepend: [PlaceholderAPI, Vault]
 main: me.jul1an_k.tablist.bukkit.Tablist
 
@@ -34,3 +34,4 @@ permissions:
             sTablist.del: true
             sTablist.regenconfig: true
             sTablist.copyfrompermissionsystem: true
+            sTablist.help: true
