@@ -24,6 +24,9 @@ public class Tablist extends JavaPlugin {
 	
 	private ScoreboardConfig sbcfg;
 	
+	FileConfiguration prefixsuffix;
+	File ps_file = new File("plugins/sTablist/Prefixes-And-Suffixes/groups.yml");
+	
 	public void onEnable() {
 		long start = System.currentTimeMillis();
 		
@@ -32,9 +35,11 @@ public class Tablist extends JavaPlugin {
 		
 		saveDefaultConfig();
 		// saveResource("scoreboard.yml", false);
-		saveResource("Prefixes-And-Suffixes/groups.yml", false);
+		// This always tells the console that the file could not be saved, every time I restart the server. - DELETE //
+		//saveResource("Prefixes-And-Suffixes/groups.yml", false);
 		
 		loadConfig();
+		loadPrefixSuffixFile();
 		
 		if(getConfig().getBoolean("EnableAutoUpdater")) {
 			FileUpdate updater = new FileUpdate();
@@ -92,6 +97,11 @@ public class Tablist extends JavaPlugin {
 		long stop = System.currentTimeMillis();
 		
 		System.out.println("[sTablist] Started in " + (stop - start) + " Millis!");
+	}
+	
+	private void loadPrefixSuffixFile() {
+		prefixsuffix.load(ps_file);
+		prefixsuffix = YamlConfiguration.loadConfiguration(ps_file);
 	}
 	
 	private void loadConfig() {
