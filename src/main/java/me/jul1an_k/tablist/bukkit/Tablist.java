@@ -1,11 +1,15 @@
 package me.jul1an_k.tablist.bukkit;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -24,8 +28,8 @@ public class Tablist extends JavaPlugin {
 	
 	private ScoreboardConfig sbcfg;
 	
-	FileConfiguration prefixsuffix;
-	File ps_file = new File("plugins/sTablist/Prefixes-And-Suffixes/groups.yml");
+	private FileConfiguration prefixsuffix;
+	private File ps_file = new File("plugins/sTablist/Prefixes-And-Suffixes/groups.yml");
 	
 	public void onEnable() {
 		long start = System.currentTimeMillis();
@@ -35,8 +39,6 @@ public class Tablist extends JavaPlugin {
 		
 		saveDefaultConfig();
 		// saveResource("scoreboard.yml", false);
-		// This always tells the console that the file could not be saved, every time I restart the server. - DELETE //
-		//saveResource("Prefixes-And-Suffixes/groups.yml", false);
 		
 		loadConfig();
 		loadPrefixSuffixFile();
@@ -100,7 +102,12 @@ public class Tablist extends JavaPlugin {
 	}
 	
 	private void loadPrefixSuffixFile() {
-		prefixsuffix.load(ps_file);
+		try {
+			prefixsuffix.load(ps_file);
+		} catch (IOException | InvalidConfigurationException e) {
+			e.printStackTrace();
+		}
+
 		prefixsuffix = YamlConfiguration.loadConfiguration(ps_file);
 	}
 	

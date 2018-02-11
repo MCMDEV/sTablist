@@ -29,7 +29,7 @@ public class ConfigFile {
 				e.printStackTrace();
 			}
 		}
-		
+
 		yaml = YamlConfiguration.loadConfiguration(file);
 	}
 	
