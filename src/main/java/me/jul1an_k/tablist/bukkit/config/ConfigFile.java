@@ -35,12 +35,6 @@ public class ConfigFile {
 			}
 		}
 
-		try {
-			yaml.load(file);
-		} catch (IOException | InvalidConfigurationException e) {
-			e.printStackTrace();
-		}
-
 		yaml = YamlConfiguration.loadConfiguration(file);
 	}
 	
