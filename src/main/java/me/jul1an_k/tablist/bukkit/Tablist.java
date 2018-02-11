@@ -28,9 +28,6 @@ public class Tablist extends JavaPlugin {
 	
 	private ScoreboardConfig sbcfg;
 	
-	private FileConfiguration prefixsuffix;
-	private File ps_file = new File("plugins/sTablist/Prefixes-And-Suffixes/groups.yml");
-	
 	public void onEnable() {
 		long start = System.currentTimeMillis();
 		
@@ -41,7 +38,6 @@ public class Tablist extends JavaPlugin {
 		// saveResource("scoreboard.yml", false);
 		
 		loadConfig();
-		loadPrefixSuffixFile();
 		
 		if(getConfig().getBoolean("EnableAutoUpdater")) {
 			FileUpdate updater = new FileUpdate();
@@ -99,16 +95,6 @@ public class Tablist extends JavaPlugin {
 		long stop = System.currentTimeMillis();
 		
 		System.out.println("[sTablist] Started in " + (stop - start) + " Millis!");
-	}
-	
-	private void loadPrefixSuffixFile() {
-		try {
-			prefixsuffix.load(ps_file);
-		} catch (IOException | InvalidConfigurationException e) {
-			e.printStackTrace();
-		}
-
-		prefixsuffix = YamlConfiguration.loadConfiguration(ps_file);
 	}
 	
 	private void loadConfig() {

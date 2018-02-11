@@ -3,6 +3,8 @@ package me.jul1an_k.tablist.bukkit.config;
 import java.io.File;
 import java.io.IOException;
 
+import me.jul1an_k.tablist.bukkit.Tablist;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -17,17 +19,26 @@ public class ConfigFile {
 	
 	public ConfigFile(String folder_path, String file_path) {
 		File folder = new File(folder_path);
+
 		if(!folder.isDirectory()) {
 			folder.mkdirs();
 		}
+
 		file = new File("plugins/sTablist/Prefixes-And-Suffixes", file_path + ".yml");
 		
 		if(!file.exists()) {
 			try {
 				file.createNewFile();
+				Tablist.getPlugin(Tablist.class).saveResource("Prefixes-And-Suffixes/groups.yml", false);
 			} catch(IOException e) {
 				e.printStackTrace();
 			}
+		}
+
+		try {
+			yaml.load(file);
+		} catch (IOException | InvalidConfigurationException e) {
+			e.printStackTrace();
 		}
 
 		yaml = YamlConfiguration.loadConfiguration(file);
