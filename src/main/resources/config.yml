@@ -1,4 +1,4 @@
-EnableAutoUpdater: true
+EnableAutoUpdater: false
 
 #In Seconds
 PluginAutoUpdate: 3600
