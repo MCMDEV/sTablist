@@ -1,15 +1,11 @@
 package me.jul1an_k.tablist.bukkit;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -165,13 +161,21 @@ public class Tablist extends JavaPlugin {
 		if(p.getGameMode() == GameMode.SPECTATOR) {
 			for(Player all : Bukkit.getOnlinePlayers()) {
 				if(all.canSee(p)) {
-					all.hidePlayer(getPlugin(Tablist.class), p);
+					try {
+						all.hidePlayer(getPlugin(Tablist.class), p);
+					} catch(NoSuchMethodError error) {
+						all.hidePlayer(p);
+					}
 				}
 			}
 		} else {
 			for(Player all : Bukkit.getOnlinePlayers()) {
 				if(!all.canSee(p)) {
-					all.showPlayer(getPlugin(Tablist.class), p);
+					try {
+						all.showPlayer(getPlugin(Tablist.class), p);
+					} catch(NoSuchMethodError error) {
+						all.showPlayer(p);
+					}
 				}
 			}
 		}
