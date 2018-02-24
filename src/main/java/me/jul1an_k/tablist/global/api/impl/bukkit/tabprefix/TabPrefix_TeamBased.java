@@ -26,7 +26,9 @@ public class TabPrefix_TeamBased extends TabPrefix {
 		prefix = VariableManager.replace(prefix, p);
 		Scoreboard board = Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard") ? p.getScoreboard() : Bukkit.getScoreboardManager().getMainScoreboard();
 		Team team = board.getTeam(p.getName()) == null ? board.registerNewTeam(p.getName()) : board.getTeam(p.getName());
-		
+
+		prefix = VariableManager.replace(prefix, p);
+
 		team.setPrefix(prefix.length() > 15 ? prefix.substring(0, 16) : prefix);
 		team.addPlayer(p);
 		
@@ -46,7 +48,9 @@ public class TabPrefix_TeamBased extends TabPrefix {
 		suffix = VariableManager.replace(suffix, p);
 		Scoreboard board = Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard") ? p.getScoreboard() : Bukkit.getScoreboardManager().getMainScoreboard();
 		Team team = board.getTeam(p.getName()) == null ? board.registerNewTeam(p.getName()) : board.getTeam(p.getName());
-		
+
+		suffix = VariableManager.replace(suffix, p);
+
 		team.setSuffix(suffix.length() > 15 ? suffix.substring(0, 16) : suffix);
 		team.addPlayer(p);
 		
