@@ -29,7 +29,7 @@ public class ConfigFile {
 		if(!file.exists()) {
 			try {
 				file.createNewFile();
-				Tablist.getPlugin(Tablist.class).saveResource("Prefixes-And-Suffixes/groups.yml", false);
+				Tablist.getPlugin(Tablist.class).saveResource("Prefixes-And-Suffixes/" + file_path + ".yml", true);
 			} catch(IOException e) {
 				e.printStackTrace();
 			}
