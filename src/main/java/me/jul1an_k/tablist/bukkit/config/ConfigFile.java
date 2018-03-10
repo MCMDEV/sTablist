@@ -29,6 +29,8 @@ public class ConfigFile {
 		if(!file.exists()) {
 			try {
 				file.createNewFile();
+
+				if(file_path.equals("groups"))
 				Tablist.getPlugin(Tablist.class).saveResource("Prefixes-And-Suffixes/" + file_path + ".yml", true);
 			} catch(IOException e) {
 				e.printStackTrace();
