@@ -2,6 +2,7 @@ package me.jul1an_k.tablist.bukkit.variables;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.bukkit.Bukkit;
@@ -21,7 +22,12 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 
 public class VariableManager {
-	
+
+	private static final Date date = new Date();
+
+	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+	private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
+
 	private static Map<String, Scroller> scrollers = new HashMap<>();
 
 	private static Economy economy;
@@ -43,6 +49,9 @@ public class VariableManager {
 	
 	public static String replace(String msg, Player p) {
 		String newmsg = msg;
+
+		String dateString = dateFormat.format(date);
+		String timeString = timeFormat.format(date);
 		
 		newmsg = newmsg.replace("%player%", p.getName());
 		newmsg = newmsg.replace("%displayname%", p.getDisplayName());
@@ -57,6 +66,8 @@ public class VariableManager {
 		newmsg = newmsg.replace("%z%", (int) p.getLocation().getZ() + "");
 		newmsg = newmsg.replace("%ping%", sTablistAPI.getImpl().getPing(p) + "");
 		newmsg = newmsg.replace("%world%", p.getWorld().getName());
+		newmsg = newmsg.replace("%date%", dateString);
+		newmsg = newmsg.replace("%time%", timeString);
 		
 		int staffs = 0;
 		
@@ -92,7 +103,10 @@ public class VariableManager {
 	
 	public static String replaceTab(String msg, Player p) {
 		String newmsg = msg;
-		
+
+		String dateString = dateFormat.format(date);
+		String timeString = timeFormat.format(date);
+
 		newmsg = newmsg.replace("%player%", p.getName());
 		newmsg = newmsg.replace("%displayname%", p.getDisplayName());
 		newmsg = newmsg.replace("%online%", getOnlinePlayers().size() + "");
@@ -106,6 +120,8 @@ public class VariableManager {
 		newmsg = newmsg.replace("%z%", (int) p.getLocation().getZ() + "");
 		newmsg = newmsg.replace("%ping%", sTablistAPI.getImpl().getPing(p) + "");
 		newmsg = newmsg.replace("%world%", p.getWorld().getName());
+		newmsg = newmsg.replace("%date%", dateString);
+		newmsg = newmsg.replace("%time%", timeString);
 		
 		int staffs = 0;
 		
@@ -134,6 +150,8 @@ public class VariableManager {
 				snewmsg = snewmsg.replace("%z%", (int) p.getLocation().getZ() + "");
 				snewmsg = snewmsg.replace("%ping%", sTablistAPI.getImpl().getPing(p) + "");
 				snewmsg = snewmsg.replace("%staff_online%", staffs + "");
+				snewmsg = snewmsg.replace("%date%", dateString);
+				snewmsg = snewmsg.replace("%time%", timeString);
 				
 				snewmsg = ChatColor.translateAlternateColorCodes('&', snewmsg);
 				
