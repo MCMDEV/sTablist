@@ -25,7 +25,7 @@ public abstract class sTablistAPI {
 		return implemantation;
 	}
 	
-	public static void setupTablistAPI() {
+	static void setupTablistAPI() {
 		try {
 			Class.forName("net.glowstone.entity.GlowPlayer");
 			
