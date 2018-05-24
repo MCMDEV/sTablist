@@ -1,7 +1,7 @@
 package me.jul1an_k.tablist.bukkit.update;
 
-import static me.jul1an_k.tablist.global.api.HTTPApi.downloadFile;
-import static me.jul1an_k.tablist.global.api.HTTPApi.readLine;
+import static me.jul1an_k.tablist.api.HTTPApi.downloadFile;
+import static me.jul1an_k.tablist.api.HTTPApi.readLine;
 
 import java.io.File;
 import java.io.IOException;

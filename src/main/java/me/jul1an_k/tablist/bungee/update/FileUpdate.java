@@ -1,7 +1,7 @@
 package me.jul1an_k.tablist.bungee.update;
 
-import static me.jul1an_k.tablist.global.api.HTTPApi.downloadFile;
-import static me.jul1an_k.tablist.global.api.HTTPApi.readLine;
+import static me.jul1an_k.tablist.api.HTTPApi.downloadFile;
+import static me.jul1an_k.tablist.api.HTTPApi.readLine;
 
 import java.io.IOException;
 
@@ -23,17 +23,17 @@ public class FileUpdate {
 				System.out.println("[sTablist-AutoUpdater] New in this version: " + changesString);
 				for(ProxiedPlayer all : ProxyServer.getInstance().getPlayers()) {
 					if(all.hasPermission("sTablist.Update")) {
-						all.sendMessage(new TextComponent("§aAn Update for sTablist is available!"));
-						all.sendMessage(new TextComponent("§cCurrent Version: " + oldVersion));
-						all.sendMessage(new TextComponent("§2New Version: " + newVersion));
-						all.sendMessage(new TextComponent("§3New in this version: " + changesString));
-						all.sendMessage(new TextComponent("§aDownloading update..."));
+						all.sendMessage(new TextComponent("ï¿½aAn Update for sTablist is available!"));
+						all.sendMessage(new TextComponent("ï¿½cCurrent Version: " + oldVersion));
+						all.sendMessage(new TextComponent("ï¿½2New Version: " + newVersion));
+						all.sendMessage(new TextComponent("ï¿½3New in this version: " + changesString));
+						all.sendMessage(new TextComponent("ï¿½aDownloading update..."));
 					}
 				}
 				updateDownload();
 				for(ProxiedPlayer all : ProxyServer.getInstance().getPlayers()) {
 					if(all.hasPermission("sTablist.Update")) {
-						all.sendMessage(new TextComponent("§aDownloaded update!"));
+						all.sendMessage(new TextComponent("ï¿½aDownloaded update!"));
 					}
 				}
 			}

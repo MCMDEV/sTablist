@@ -1,8 +1,8 @@
-package me.jul1an_k.tablist.global.api.impl.bukkit.tablistapi;
+package me.jul1an_k.tablist.bukkit.api.impl.tablistapi;
 
+import me.jul1an_k.tablist.api.bukkit.sTablistAPI;
 import org.bukkit.entity.Player;
 
-import me.jul1an_k.tablist.bukkit.sTablistAPI;
 import me.jul1an_k.tablist.bukkit.variables.VariableManager;
 import net.glowstone.entity.GlowPlayer;
 import net.md_5.bungee.api.chat.TextComponent;

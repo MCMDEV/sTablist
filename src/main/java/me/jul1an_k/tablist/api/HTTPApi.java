@@ -1,4 +1,4 @@
-package me.jul1an_k.tablist.global.api;
+package me.jul1an_k.tablist.api;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

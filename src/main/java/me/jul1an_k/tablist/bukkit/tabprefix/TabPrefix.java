@@ -1,23 +1,10 @@
 package me.jul1an_k.tablist.bukkit.tabprefix;
 
-import java.util.List;
-
-import me.jul1an_k.tablist.global.api.impl.bukkit.tabprefix.TabPrefix_TeamBased;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import me.jul1an_k.tablist.bukkit.api.impl.tabprefix.TabPrefix_TeamBased;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.plugin.RegisteredServiceProvider;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.Team;
 
-import me.jul1an_k.tablist.bukkit.Tablist;
 import me.jul1an_k.tablist.bukkit.config.ConfigFile;
-import me.jul1an_k.tablist.bukkit.variables.VariableManager;
-import net.milkbowl.vault.permission.Permission;
 
 public abstract class TabPrefix {
 

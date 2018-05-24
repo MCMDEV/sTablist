@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import me.jul1an_k.tablist.api.bukkit.sTablistAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -18,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import me.jul1an_k.tablist.bukkit.Tablist;
-import me.jul1an_k.tablist.bukkit.sTablistAPI;
 import me.jul1an_k.tablist.bukkit.tabprefix.TabPrefix;
 
 public class TablistCommand implements CommandExecutor, TabCompleter {

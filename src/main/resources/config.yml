@@ -21,6 +21,10 @@ Footer:
   
 HideGM3: false
 
+#Skips disguised players on rank update
+#Only supports LibsDisguises
+SkipDisguised: false
+
 Join:
   Title:
     text: '&5Welcome to'

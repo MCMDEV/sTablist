@@ -1,12 +1,12 @@
-package me.jul1an_k.tablist.global.api.impl.bukkit.tablistapi;
+package me.jul1an_k.tablist.bukkit.api.impl.tablistapi;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import me.jul1an_k.tablist.api.bukkit.sTablistAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import me.jul1an_k.tablist.bukkit.sTablistAPI;
 import me.jul1an_k.tablist.bukkit.variables.VariableManager;
 
 public class TablistAPI_NMS extends sTablistAPI {

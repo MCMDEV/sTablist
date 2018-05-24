@@ -7,7 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import me.jul1an_k.tablist.bukkit.Tablist;
-import me.jul1an_k.tablist.bukkit.sTablistAPI;
+import me.jul1an_k.tablist.api.bukkit.sTablistAPI;
 import me.jul1an_k.tablist.bukkit.tabprefix.TabPrefix;
 
 public class Join_Listener implements Listener {

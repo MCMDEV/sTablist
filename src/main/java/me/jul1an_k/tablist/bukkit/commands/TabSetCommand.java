@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.jul1an_k.tablist.bukkit.Tablist;
-import me.jul1an_k.tablist.bukkit.sTablistAPI;
+import me.jul1an_k.tablist.api.bukkit.sTablistAPI;
 
 public class TabSetCommand implements CommandExecutor {
 	

@@ -1,8 +1,6 @@
 package me.jul1an_k.tablist.bukkit;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import me.jul1an_k.tablist.api.bukkit.sTablistAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -26,7 +24,7 @@ public class Tablist extends JavaPlugin {
 	
 	public void onEnable() {
 		long start = System.currentTimeMillis();
-		
+
 		sTablistAPI.setupTablistAPI();
 		TabPrefix.setupTabPrefix();
 		
@@ -97,29 +95,9 @@ public class Tablist extends JavaPlugin {
 		saveDefaultConfig();
 		
 		FileConfiguration fc = getConfig();
-		if(!fc.contains("RandomColors")) {
-			List<String> randomColors = new ArrayList<>();
-			randomColors.add("&0");
-			randomColors.add("&1");
-			randomColors.add("&2");
-			randomColors.add("&3");
-			randomColors.add("&4");
-			randomColors.add("&5");
-			randomColors.add("&6");
-			randomColors.add("&7");
-			randomColors.add("&8");
-			randomColors.add("&9");
-			randomColors.add("&a");
-			randomColors.add("&b");
-			randomColors.add("&c");
-			randomColors.add("&d");
-			randomColors.add("&e");
-			randomColors.add("&f");
-			fc.set("RandomColors", randomColors);
-		}
 		
-		if(!fc.contains("UseExternalScoreboard")) {
-			fc.set("UseExternalScoreboard", false);
+		if(!fc.contains("SkipDisguised")) {
+			fc.set("SkipDisguised", false);
 		}
 		
 		saveConfig();
@@ -129,11 +107,11 @@ public class Tablist extends JavaPlugin {
 		Bukkit.getScheduler().cancelTasks(this);
 	}
 	
-	private static int UpdateTask = 0;
+	private static int updateTask = 0;
 	
 	public static void startUpdate() {
 		long start = System.currentTimeMillis();
-		UpdateTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), () -> {
+		updateTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), () -> {
 				for(Player p : Bukkit.getOnlinePlayers()) {
 					Tablist instance = Tablist.getPlugin(Tablist.class);
 					
@@ -183,7 +161,7 @@ public class Tablist extends JavaPlugin {
 	
 	public static void stopUpdate() {
 		long start = System.currentTimeMillis();
-		Bukkit.getScheduler().cancelTask(UpdateTask);
+		Bukkit.getScheduler().cancelTask(updateTask);
 		long stop = System.currentTimeMillis();
 		System.out.println("[sTablist] Tab Update Task was stopped in " + (stop - start) + " Millis!");
 	}
@@ -195,6 +173,8 @@ public class Tablist extends JavaPlugin {
 
 		tagUpdateTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), () -> {
 				for(Player all : Bukkit.getOnlinePlayers()) {
+					if(getConfig().getBoolean("SkipDisguised") && me.libraryaddict.disguise.DisguiseAPI.isDisguised(all)) continue;
+
 					TabPrefix.getImpl().loadNameTag(all);
 				}
 		}, Tablist.getPlugin(Tablist.class).getConfig().getInt("TagAutoUpdate") * 20, Tablist.getPlugin(Tablist.class).getConfig().getInt("TagAutoUpdate") * 20);

@@ -1,13 +1,12 @@
 package me.jul1an_k.tablist.bukkit.commands;
 
+import me.jul1an_k.tablist.api.bukkit.sTablistAPI;
+import me.jul1an_k.tablist.bukkit.Tablist;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.RegisteredServiceProvider;
-
-import me.jul1an_k.tablist.bukkit.Tablist;
-import me.jul1an_k.tablist.bukkit.sTablistAPI;
 
 public class InfoCommand implements CommandExecutor {
 	
