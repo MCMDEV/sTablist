@@ -28,7 +28,7 @@ public class VariableManager {
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 	private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 
-	private static Map<String, Scroller> scrollers = new HashMap<>();
+	private static final Map<String, Scroller> scrollers = new HashMap<>();
 
 	private static Economy economy;
 	private static Permission permission;
@@ -191,7 +191,7 @@ public class VariableManager {
 		return newmsg;
 	}
 	
-	public static Collection<? extends Player> getOnlinePlayers() {
+	private static Collection<? extends Player> getOnlinePlayers() {
 		List<Player> onlinePlayers = new ArrayList<>();
 		
 		if(Tablist.getPlugin(Tablist.class).getConfig().getBoolean("HideGM3")) {
@@ -208,25 +208,25 @@ public class VariableManager {
 		return onlinePlayers;
 	}
 	
-	public static class Scroller {
+	static class Scroller {
 		
 		private int restartTaskID;
 		private int taskID;
-		private int time;
+		private final int time;
 		private int current;
-		private String text;
+		private final String text;
 		private String newtext;
 		
-		public Scroller(String text, int time) {
+		Scroller(String text, int time) {
 			this.text = text + " ";
 			this.time = time;
 		}
 		
-		public String getCurrentText() {
+		String getCurrentText() {
 			return newtext;
 		}
 		
-		public void start() {
+		void start() {
 			if(!Bukkit.getScheduler().isCurrentlyRunning(taskID)) {
 				taskID = Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), () -> {
 						if(current < text.length() + 1) {
@@ -241,11 +241,11 @@ public class VariableManager {
 			}
 		}
 		
-		public void stop() {
+		void stop() {
 			Bukkit.getScheduler().cancelTask(taskID);
 		}
 		
-		public void restart() {
+		void restart() {
 			newtext = "";
 			current = 0;
 			taskID = 0;
@@ -259,12 +259,12 @@ public class VariableManager {
 		
 	}
 	
-	public static class Animation {
+	static class Animation {
 		
-		public static int current = 0;
-		public static String text = "Test Text.";
-		public static String newtext = "";
-		public static boolean lock = false;
+		static int current = 0;
+		static final String text = "Test Text.";
+		static String newtext = "";
+		static boolean lock = false;
 		
 		public static void scrollTest() {
 			Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), () -> {
@@ -290,16 +290,16 @@ public class VariableManager {
 			return sub(text, 0);
 		}
 		
-		public static String sub(String text, int sub) {
+		static String sub(String text, int sub) {
 			return text.substring(sub);
 		}
 		
-		public static String sub(String text, int sub, int submax) {
+		static String sub(String text, int sub, int submax) {
 			
 			return text.substring(sub, submax);
 		}
 		
-		public static ChatColor getRandomColor() {
+		static ChatColor getRandomColor() {
 			List<ChatColor> colors = new ArrayList<>();
 			for(String s : Tablist.getPlugin(Tablist.class).getConfig().getStringList("RandomColors")) {
 				s = s.replace("&", "");
@@ -319,8 +319,8 @@ public class VariableManager {
 	
 	public static class PvPVariables implements Listener {
 		
-		private static File f = new File("plugins/sTablist", "PvPStats.yml");
-		private static FileConfiguration fc = YamlConfiguration.loadConfiguration(f);
+		private static final File f = new File("plugins/sTablist", "PvPStats.yml");
+		private static final FileConfiguration fc = YamlConfiguration.loadConfiguration(f);
 		
 		public PvPVariables() {
 			if(!f.exists()) {
@@ -332,21 +332,21 @@ public class VariableManager {
 			}
 		}
 		
-		public static int getDeaths(Player p) {
+		static int getDeaths(Player p) {
 			if(!fc.contains(p.getUniqueId() + ".Deaths")) {
 				fc.set(p.getUniqueId() + ".Deaths", 0);
 			}
 			return fc.getInt(p.getUniqueId() + ".Deaths");
 		}
 		
-		public static int getKills(Player p) {
+		static int getKills(Player p) {
 			if(!fc.contains(p.getUniqueId() + ".Kills")) {
 				fc.set(p.getUniqueId() + ".Kills", 0);
 			}
 			return fc.getInt(p.getUniqueId() + ".Kills");
 		}
 		
-		public static void setDeaths(Player p, int Deaths) {
+		static void setDeaths(Player p, int Deaths) {
 			fc.set(p.getUniqueId() + ".Deaths", Deaths);
 			try {
 				fc.save(f);
@@ -355,7 +355,7 @@ public class VariableManager {
 			}
 		}
 		
-		public static void setKills(Player p, int Kills) {
+		static void setKills(Player p, int Kills) {
 			fc.set(p.getUniqueId() + ".Kills", Kills);
 			try {
 				fc.save(f);

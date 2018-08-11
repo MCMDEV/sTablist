@@ -16,8 +16,7 @@ import me.jul1an_k.tablist.bukkit.variables.VariableManager;
 import net.milkbowl.vault.permission.Permission;
 
 public class TabPrefix_TeamBased extends TabPrefix {
-	
-	@SuppressWarnings("deprecation")
+
 	public void setPrefix(Player p, String prefix) {
 		prefix = VariableManager.replace(prefix, p);
 		Scoreboard board = Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard") ? p.getScoreboard() : Bukkit.getScoreboardManager().getMainScoreboard();
@@ -26,7 +25,7 @@ public class TabPrefix_TeamBased extends TabPrefix {
 		prefix = VariableManager.replace(prefix, p);
 
 		team.setPrefix(prefix.length() > 15 ? prefix.substring(0, 16) : prefix);
-		team.addPlayer(p);
+		team.addEntry(p.getName());
 		
 		if(!Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard")) {
 			for(Player all : Bukkit.getOnlinePlayers()) {
@@ -38,8 +37,7 @@ public class TabPrefix_TeamBased extends TabPrefix {
 		
 		playersFile.save();
 	}
-	
-	@SuppressWarnings("deprecation")
+
 	public void setSuffix(Player p, String suffix) {
 		suffix = VariableManager.replace(suffix, p);
 		Scoreboard board = Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard") ? p.getScoreboard() : Bukkit.getScoreboardManager().getMainScoreboard();
@@ -48,7 +46,7 @@ public class TabPrefix_TeamBased extends TabPrefix {
 		suffix = VariableManager.replace(suffix, p);
 
 		team.setSuffix(suffix.length() > 15 ? suffix.substring(0, 16) : suffix);
-		team.addPlayer(p);
+		team.addEntry(p.getName());
 		
 		if(!Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard")) {
 			for(Player all : Bukkit.getOnlinePlayers()) {
@@ -176,9 +174,8 @@ public class TabPrefix_TeamBased extends TabPrefix {
 			block = true;
 		}
 		
-		if(block) {
+		if(block)
 			return;
-		}
 		
 		if(Bukkit.getPluginManager().isPluginEnabled("Vault")) {
 			Permission permission = null;
@@ -186,9 +183,7 @@ public class TabPrefix_TeamBased extends TabPrefix {
 
 			if(permissionProvider != null) permission = permissionProvider.getProvider();
 
-			if(permission == null) return;
-
-			if(permission.getName().equals("SuperPerms")) return;
+			if(permission == null || permission.getName().equals("SuperPerms")) return;
 
 			if((groupsFile.getYaml().contains(permission.getPlayerGroups(p)[0] + ".Prefix") | groupsFile.getYaml().contains(permission.getPlayerGroups(p)[0] + ".Suffix"))) setInGroup(p, permission.getPlayerGroups(p)[0]);
 		}

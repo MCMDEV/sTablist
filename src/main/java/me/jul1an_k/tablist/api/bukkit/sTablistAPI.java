@@ -1,11 +1,11 @@
 package me.jul1an_k.tablist.api.bukkit;
 
+import me.jul1an_k.tablist.bukkit.api.impl.tablistapi.TablistAPI_1_13;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import me.jul1an_k.tablist.bukkit.api.impl.tablistapi.TablistAPI_Glowstone;
 import me.jul1an_k.tablist.bukkit.api.impl.tablistapi.TablistAPI_NMS;
-import me.jul1an_k.tablist.bukkit.api.impl.tablistapi.TablistAPI_ProtocolHack;
 
 public abstract class sTablistAPI {
 
@@ -31,27 +31,27 @@ public abstract class sTablistAPI {
 
             implemantation = new TablistAPI_Glowstone();
 
-            System.out.println("[sTablistAPI] TablistAPI Implementation set to Glowstone.");
+            System.out.println("[sTablistAPI] TablistAPI Implementation set to Glowstone. (1.12.2)");
 
             return;
-        } catch(ClassNotFoundException e) {}
+        } catch(ClassNotFoundException ignored) {}
 
         try {
-            Class.forName("org.spigotmc.ProtocolInjector$PacketTabHeader");
+            Class.forName("org.bukkit.craftbukkit.v1_13_R1.entity.CraftPlayer");
 
-            implemantation = new TablistAPI_ProtocolHack();
+            implemantation = new TablistAPI_1_13();
 
-            System.out.println("[sTablistAPI] TablistAPI Implementation set to 1.7.10 'Protocol Hack'.");
+            System.out.println("[sTablistAPI] TablistAPI Implementation set to 1.13.");
 
             return;
-        } catch(ClassNotFoundException e) {}
+        } catch(ClassNotFoundException ignored) {}
 
         implemantation = new TablistAPI_NMS();
 
         System.out.println("[sTablistAPI] TablistAPI Implementation set to NMS. (1.8.X - 1.12.X)");
     }
 
-    public boolean compareMinecraftVersionServerIsHigherOrEqual(String version) {
+    protected boolean compareMinecraftVersionServerIsHigherOrEqual(String version) {
         String serverVersion = Bukkit.getVersion();
         serverVersion = serverVersion.substring(serverVersion.indexOf("(MC: ") + 5, serverVersion.length());
         serverVersion = serverVersion.substring(0, serverVersion.lastIndexOf(")"));
@@ -69,10 +69,7 @@ public abstract class sTablistAPI {
             if(toCompareSecond != serverSecond) {
                 return toCompareSecond < serverSecond;
             }
-            if(toCompareVersionArray.length == 3) {
-                return false;
-            }
-            return true;
+            return toCompareVersionArray.length != 3;
         }
         if(serverVersionArray.length == 3) {
             int serverFirst = Integer.valueOf(serverVersionArray[0]);

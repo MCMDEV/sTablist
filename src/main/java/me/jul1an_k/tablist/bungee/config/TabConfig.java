@@ -9,7 +9,7 @@ import net.md_5.bungee.config.YamlConfiguration;
 public class TabConfig {
 	
 	private Configuration yaml;
-	private File file;
+	private final File file;
 	
 	public TabConfig() {
 		file = new File("plugins/sTablist", "config.yml");

@@ -42,7 +42,7 @@ public class FileUpdate {
 		}
 	}
 	
-	public boolean updateDownload() {
+	private boolean updateDownload() {
 		boolean success = false;
 		String pluginPath = "plugins/" + Tablist.getInstance().getDescription().getName() + ".jar";
 		

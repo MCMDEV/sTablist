@@ -6,7 +6,7 @@
 
     <groupId>me.jul1an_k</groupId>
     <artifactId>stablist</artifactId>
-    <version>3.0.0-rc2</version>
+    <version>3.0.0-rc3</version>
 
     <repositories>
         <repository>
@@ -40,21 +40,14 @@
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
-            <version>1.12.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <!--Bukkit API-->
-        <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.12.2-R0.1-SNAPSHOT</version>
+            <version>1.13-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <!--Glowstone API-->
         <dependency>
             <groupId>net.glowstone</groupId>
             <artifactId>glowstone</artifactId>
-            <version>2018.0.0-SNAPSHOT</version>
+            <version>2018.8.0-SNAPSHOT</version>
         </dependency>
         <!--BungeeCord API-->
         <dependency>

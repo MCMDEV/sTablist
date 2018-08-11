@@ -95,59 +95,57 @@ public class FileUpdate implements CommandExecutor {
 		// unload
 		Plugin pluginunload = manager.getPlugin(Tablist.getPlugin(Tablist.class).getDescription().getName());
 		manager.disablePlugin(pluginunload);
-		
-		if(spmanager != null) {
-			Field pluginsField = spmanager.getClass().getDeclaredField("plugins");
-			pluginsField.setAccessible(true);
-			List<Plugin> plugins = (List<Plugin>) pluginsField.get(spmanager);
-			
-			Field lookupNamesField = spmanager.getClass().getDeclaredField("lookupNames");
-			lookupNamesField.setAccessible(true);
-			Map<String, Plugin> lookupNames = (Map<String, Plugin>) lookupNamesField.get(spmanager);
-			
-			Field commandMapField = spmanager.getClass().getDeclaredField("commandMap");
-			commandMapField.setAccessible(true);
-			SimpleCommandMap commandMap = (SimpleCommandMap) commandMapField.get(spmanager);
-			
-			Field knownCommandsField = null;
-			Map<String, Command> knownCommands = null;
-			
-			if(commandMap != null) {
-				knownCommandsField = commandMap.getClass().getDeclaredField("knownCommands");
-				knownCommandsField.setAccessible(true);
-				knownCommands = (Map<String, Command>) knownCommandsField.get(commandMap);
-			}
-			
-			for(Plugin plugin : manager.getPlugins()) {
-				if(plugin.getDescription().getName().equalsIgnoreCase(Tablist.getPlugin(Tablist.class).getDescription().getName())) {
-					manager.disablePlugin(plugin);
-					
-					if(plugins != null && plugins.contains(plugin)) {
-						plugins.remove(plugin);
-					}
-					
-					if(lookupNames != null && lookupNames.containsKey(Tablist.getPlugin(Tablist.class).getDescription().getName())) {
-						lookupNames.remove(Tablist.getPlugin(Tablist.class).getDescription().getName());
-					}
-					
-					if(commandMap != null) {
-						for(Iterator<Map.Entry<String, Command>> it = knownCommands.entrySet().iterator(); it.hasNext();) {
-							Map.Entry<String, Command> entry = it.next();
-							
-							if(entry.getValue() instanceof PluginCommand) {
-								PluginCommand command = (PluginCommand) entry.getValue();
-								
-								if(command.getPlugin() == plugin) {
-									command.unregister(commandMap);
-									it.remove();
-								}
+
+		Field pluginsField = spmanager.getClass().getDeclaredField("plugins");
+		pluginsField.setAccessible(true);
+		List<Plugin> plugins = (List<Plugin>) pluginsField.get(spmanager);
+
+		Field lookupNamesField = spmanager.getClass().getDeclaredField("lookupNames");
+		lookupNamesField.setAccessible(true);
+		Map<String, Plugin> lookupNames = (Map<String, Plugin>) lookupNamesField.get(spmanager);
+
+		Field commandMapField = spmanager.getClass().getDeclaredField("commandMap");
+		commandMapField.setAccessible(true);
+		SimpleCommandMap commandMap = (SimpleCommandMap) commandMapField.get(spmanager);
+
+		Field knownCommandsField = null;
+		Map<String, Command> knownCommands = null;
+
+		if(commandMap != null) {
+			knownCommandsField = commandMap.getClass().getDeclaredField("knownCommands");
+			knownCommandsField.setAccessible(true);
+			knownCommands = (Map<String, Command>) knownCommandsField.get(commandMap);
+		}
+
+		for(Plugin plugin : manager.getPlugins()) {
+			if(plugin.getDescription().getName().equalsIgnoreCase(Tablist.getPlugin(Tablist.class).getDescription().getName())) {
+				manager.disablePlugin(plugin);
+
+				if(plugins != null) {
+					plugins.remove(plugin);
+				}
+
+				if(lookupNames != null) {
+					lookupNames.remove(Tablist.getPlugin(Tablist.class).getDescription().getName());
+				}
+
+				if(commandMap != null) {
+					for(Iterator<Map.Entry<String, Command>> it = knownCommands.entrySet().iterator(); it.hasNext();) {
+						Map.Entry<String, Command> entry = it.next();
+
+						if(entry.getValue() instanceof PluginCommand) {
+							PluginCommand command = (PluginCommand) entry.getValue();
+
+							if(command.getPlugin() == plugin) {
+								command.unregister(commandMap);
+								it.remove();
 							}
 						}
 					}
 				}
 			}
 		}
-		
+
 		// load
 		Plugin pluginload = manager.loadPlugin(new File("plugins", Tablist.getPlugin(Tablist.class).getDescription().getName() + ".jar"));
 		pluginload.onLoad();

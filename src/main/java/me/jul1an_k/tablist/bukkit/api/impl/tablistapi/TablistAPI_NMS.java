@@ -14,11 +14,11 @@ public class TablistAPI_NMS extends sTablistAPI {
 	private Class<?> chatSerializer;
 	private Class<?> packetPlayOutTitle;
 	private Class<?> enumTitleAction;
-	private Class<?> chatMessageType;
-	private Class<?> packet;
-	private Class<?> craftPlayer;
-	private Class<?> entityPlayer;
-	private Class<?> playerConnection;
+	private final Class<?> chatMessageType;
+	private final Class<?> packet;
+	private final Class<?> craftPlayer;
+	private final Class<?> entityPlayer;
+	private final Class<?> playerConnection;
 
 	private Method chatSerializer$a;
 	private Method craftPlayer$getHandle;
@@ -45,7 +45,7 @@ public class TablistAPI_NMS extends sTablistAPI {
 			this.chatSerializer$a = chatSerializer.getMethod("a", String.class);
 			this.craftPlayer$getHandle = craftPlayer.getMethod("getHandle");
 			this.playerConnection$sendPacket = playerConnection.getMethod("sendPacket", packet);
-		} catch(NoSuchMethodException exception) {}
+		} catch(NoSuchMethodException ignored) {}
 	}
 	
 	public void sendTabList(Player player, String header, String footer) {
@@ -83,7 +83,6 @@ public class TablistAPI_NMS extends sTablistAPI {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public void sendTitle(Player p, String title, String subtitle, int fadein, int stay, int fadeout, boolean clear, boolean reset) {

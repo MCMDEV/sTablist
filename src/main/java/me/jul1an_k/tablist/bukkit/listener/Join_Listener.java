@@ -12,7 +12,7 @@ import me.jul1an_k.tablist.bukkit.tabprefix.TabPrefix;
 
 public class Join_Listener implements Listener {
 	
-	private Tablist instance = Tablist.getPlugin(Tablist.class);
+	private final Tablist instance = Tablist.getPlugin(Tablist.class);
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent e) {

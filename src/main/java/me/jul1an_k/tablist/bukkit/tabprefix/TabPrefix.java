@@ -10,8 +10,8 @@ public abstract class TabPrefix {
 
 	private static TabPrefix implemantation;
 
-	protected static ConfigFile groupsFile = new ConfigFile("plugins/sTablist/Prefixes-And-Suffixes", "groups");
-	protected static ConfigFile playersFile = new ConfigFile("plugins/sTablist/Prefixes-And-Suffixes", "players");
+	protected static final ConfigFile groupsFile = new ConfigFile("plugins/sTablist/Prefixes-And-Suffixes", "groups");
+	protected static final ConfigFile playersFile = new ConfigFile("plugins/sTablist/Prefixes-And-Suffixes", "players");
 
 	public abstract void setPrefix(Player p, String prefix);
 

@@ -55,7 +55,7 @@ public class Join_Listener implements Listener {
 		// }
 	}
 	
-	public static String replace(String s, ProxiedPlayer p) {
+	private static String replace(String s, ProxiedPlayer p) {
 		s = ChatColor.translateAlternateColorCodes('&', s);
 		s = s.replace("%player%", p.getName());
 		s = s.replace("%displayname%", p.getDisplayName());

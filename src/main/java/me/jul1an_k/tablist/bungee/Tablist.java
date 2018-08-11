@@ -29,7 +29,7 @@ public class Tablist extends Plugin {
 		System.out.println("[sTablist-Bungee] v" + getDescription().getVersion() + " started in " + (stop - start) + " Millis!");
 	}
 	
-	public void loadCfg() {
+	private void loadCfg() {
 		cfg = new TabConfig();
 	}
 	
