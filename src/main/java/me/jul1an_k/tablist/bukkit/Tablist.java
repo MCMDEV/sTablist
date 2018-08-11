@@ -89,21 +89,13 @@ public class Tablist extends JavaPlugin {
 		if(p.getGameMode() == GameMode.SPECTATOR) {
 			for(Player all : Bukkit.getOnlinePlayers()) {
 				if(all.canSee(p)) {
-					try {
-						all.hidePlayer(getPlugin(Tablist.class), p);
-					} catch(NoSuchMethodError error) {
-						all.hidePlayer(p);
-					}
+					all.hidePlayer(getPlugin(Tablist.class), p);
 				}
 			}
 		} else {
 			for(Player all : Bukkit.getOnlinePlayers()) {
 				if(!all.canSee(p)) {
-					try {
-						all.showPlayer(getPlugin(Tablist.class), p);
-					} catch(NoSuchMethodError error) {
-						all.showPlayer(p);
-					}
+					all.showPlayer(getPlugin(Tablist.class), p);
 				}
 			}
 		}
