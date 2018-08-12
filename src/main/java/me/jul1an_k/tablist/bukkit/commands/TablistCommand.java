@@ -181,7 +181,9 @@ public class TablistCommand implements CommandExecutor, TabCompleter {
 				
 				TabPrefix.getImpl().unset(p);
 				cs.sendMessage("§aThe Prefix and Suffix of §6" + p.getName() + " §awas deleted.");
-			} else if(args[0].equalsIgnoreCase("setHeader")) {
+			}
+		} else if(args.length >= 3) {
+			 if(args[0].equalsIgnoreCase("setHeader")) {
 				if(!cs.hasPermission("sTablist.setTab")) {
 					cs.sendMessage("§4You don't have permission to use this command!");
 					return true;
@@ -205,9 +207,7 @@ public class TablistCommand implements CommandExecutor, TabCompleter {
 				plugin.reloadConfig();
 
 				cs.sendMessage("§aSuccessfully changed footer to §6" + footer + "§a.");
-			}
-		} else if(args.length >= 3) {
-			if(args[0].equalsIgnoreCase("bc") | args[0].equalsIgnoreCase("broadcast")) {
+			} else if(args[0].equalsIgnoreCase("bc") | args[0].equalsIgnoreCase("broadcast")) {
 				if(!cs.hasPermission("sTablist.broadcast")) {
 					cs.sendMessage("§4You don't have permission to use this command!");
 					return true;
