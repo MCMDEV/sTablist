@@ -188,7 +188,7 @@ public class TablistCommand implements CommandExecutor, TabCompleter {
 				}
 
 				String header = ChatColor.translateAlternateColorCodes('&', String.join(" ", Arrays.copyOfRange(args, 1, args.length)));
-				plugin.getConfig().set("Header.Text", header);
+				plugin.getConfig().set("Header.text", header);
 				plugin.saveConfig();
 				plugin.reloadConfig();
 
@@ -200,7 +200,7 @@ public class TablistCommand implements CommandExecutor, TabCompleter {
 				}
 
 				String footer = ChatColor.translateAlternateColorCodes('&', String.join(" ", Arrays.copyOfRange(args, 1, args.length)));
-				plugin.getConfig().set("Footer.Text", footer);
+				plugin.getConfig().set("Footer.text", footer);
 				plugin.saveConfig();
 				plugin.reloadConfig();
 
