@@ -16,12 +16,14 @@ public abstract class TabPrefix {
 	public abstract void setPrefix(Player p, String prefix);
 
 	public abstract void setSuffix(Player p, String suffix);
+
+	public abstract void setColor(Player p, String color);
 	
 	public abstract void unset(OfflinePlayer p);
 	
-	public abstract void setupGroup(String group, String prefix, String suffix);
+	public abstract void setupGroup(String group, String prefix, String suffix, String color);
 	
-	public abstract void setupGroup(String group, String prefix, String suffix, Player p);
+	public abstract void setupGroup(String group, String prefix, String suffix, String color, Player p);
 	
 	public abstract void setInGroup(Player p, String group);
 	

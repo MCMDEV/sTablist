@@ -46,10 +46,10 @@ public class FileUpdate implements CommandExecutor {
 						all.sendMessage("§aDownloading update...");
 					}
 				}
-				downloadUpdate(Bukkit.getConsoleSender());
+				//downloadUpdate(Bukkit.getConsoleSender());
 				for(Player all : Bukkit.getOnlinePlayers()) {
 					if(all.hasPermission("sTablist.Update")) {
-						all.sendMessage("§aDownloaded update!");
+						all.sendMessage("§aDisabled update!");
 					}
 				}
 			} else {

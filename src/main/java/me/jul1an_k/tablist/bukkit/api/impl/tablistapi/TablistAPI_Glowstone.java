@@ -1,3 +1,4 @@
+/*
 package me.jul1an_k.tablist.bukkit.api.impl.tablistapi;
 
 import me.jul1an_k.tablist.api.bukkit.sTablistAPI;
@@ -51,3 +52,4 @@ public class TablistAPI_Glowstone extends sTablistAPI {
 	}
 	
 }
+*/

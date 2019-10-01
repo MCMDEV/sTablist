@@ -58,6 +58,27 @@ public class TabPrefix_TeamBased extends TabPrefix {
 		
 		playersFile.save();
 	}
+
+	public void setColor(Player p, String color) {
+		color = VariableManager.replace(color, p);
+		Scoreboard board = Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard") ? p.getScoreboard() : Bukkit.getScoreboardManager().getMainScoreboard();
+		Team team = board.getTeam(p.getName()) == null ? board.registerNewTeam(p.getName()) : board.getTeam(p.getName());
+
+		color = VariableManager.replace(color, p);
+
+		team.setColor(ChatColor.valueOf(color));
+		team.addEntry(p.getName());
+
+		if(!Tablist.getPlugin(Tablist.class).getConfig().getBoolean("UseExternalScoreboard")) {
+			for(Player all : Bukkit.getOnlinePlayers()) {
+				all.setScoreboard(board);
+			}
+		}
+
+		playersFile.getYaml().set(p.getUniqueId() + ".Color", color);
+
+		playersFile.save();
+	}
 	
 	public void unset(OfflinePlayer p) {
 		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
@@ -78,7 +99,7 @@ public class TabPrefix_TeamBased extends TabPrefix {
 		playersFile.save();
 	}
 	
-	public void setupGroup(String group, String prefix, String suffix) {
+	public void setupGroup(String group, String prefix, String suffix, String color) {
 		int sortID = getSortID(group);
 		String groupName = "0" + (sortID < 10 ? ("0" + sortID) : sortID) + group;
 		
@@ -95,6 +116,7 @@ public class TabPrefix_TeamBased extends TabPrefix {
 				
 				team.setPrefix(prefix);
 				team.setSuffix(suffix);
+				team.setColor(ChatColor.valueOf(color));
 			}
 		} else {
 			Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
@@ -102,13 +124,14 @@ public class TabPrefix_TeamBased extends TabPrefix {
 			
 			team.setPrefix(prefix);
 			team.setSuffix(suffix);
+			team.setColor(ChatColor.valueOf(color));
 			for(Player all : Bukkit.getOnlinePlayers()) {
 				all.setScoreboard(board);
 			}
 		}
 	}
 	
-	public void setupGroup(String group, String prefix, String suffix, Player p) {
+	public void setupGroup(String group, String prefix, String suffix, String color, Player p) {
 		int sortID = getSortID(group);
 		String groupName = "0" + (sortID < 10 ? ("0" + sortID) : sortID) + group;
 		
@@ -123,6 +146,7 @@ public class TabPrefix_TeamBased extends TabPrefix {
 		
 		team.setPrefix(prefix);
 		team.setSuffix(suffix);
+		team.setColor(ChatColor.valueOf(color));
 	}
 	
 	public void setInGroup(Player p, String group) {
@@ -171,6 +195,11 @@ public class TabPrefix_TeamBased extends TabPrefix {
 		
 		if(playersFile.getYaml().contains(p.getUniqueId() + ".Suffix")) {
 			setSuffix(p, playersFile.getYaml().getString(p.getUniqueId() + ".Suffix"));
+			block = true;
+		}
+
+		if(playersFile.getYaml().contains(p.getUniqueId() + ".Color")) {
+			setColor(p, playersFile.getYaml().getString(p.getUniqueId() + ".Color"));
 			block = true;
 		}
 		

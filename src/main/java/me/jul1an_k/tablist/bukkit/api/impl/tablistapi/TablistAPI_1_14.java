@@ -11,14 +11,14 @@ import org.bukkit.entity.Player;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class TablistAPI_1_13 extends sTablistAPI {
+public class TablistAPI_1_14 extends sTablistAPI {
 
 	private final Class<?> craftPlayer;
 	private final Class<?> entityPlayer;
 
 	private Method craftPlayer$getHandle;
 
-	public TablistAPI_1_13() {
+	public TablistAPI_1_14() {
 		this.craftPlayer = getOBCClass("entity.CraftPlayer");
 		this.entityPlayer = getNMSClass("EntityPlayer");
 

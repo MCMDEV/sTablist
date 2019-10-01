@@ -1,11 +1,10 @@
 package me.jul1an_k.tablist.api.bukkit;
 
 import me.jul1an_k.tablist.bukkit.Tablist;
-import me.jul1an_k.tablist.bukkit.api.impl.tablistapi.TablistAPI_1_13;
+import me.jul1an_k.tablist.bukkit.api.impl.tablistapi.TablistAPI_1_14;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import me.jul1an_k.tablist.bukkit.api.impl.tablistapi.TablistAPI_Glowstone;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public abstract class sTablistAPI {
@@ -30,19 +29,19 @@ public abstract class sTablistAPI {
         try {
             Class.forName("net.glowstone.entity.GlowPlayer");
 
-            implemantation = new TablistAPI_Glowstone();
+            implemantation = null;
 
-            System.out.println("[sTablistAPI] TablistAPI Implementation set to Glowstone. (1.12.2)");
+            System.out.println("[sTablistAPI] Glowstone is unsupported in this build");
 
             return;
         } catch(ClassNotFoundException ignored) {}
 
         try {
-            Class.forName("org.bukkit.craftbukkit.v1_13_R1.entity.CraftPlayer");
+            Class.forName("org.bukkit.craftbukkit.v1_14_R1.entity.CraftPlayer");
 
-            implemantation = new TablistAPI_1_13();
+            implemantation = new TablistAPI_1_14();
 
-            System.out.println("[sTablistAPI] TablistAPI Implementation set to 1.13.");
+            System.out.println("[sTablistAPI] TablistAPI Implementation set to 1.14.");
 
             return;
         } catch(ClassNotFoundException ignored) {}

@@ -74,7 +74,7 @@ public class TablistCommand implements CommandExecutor, TabCompleter {
 						continue;
 					}
 
-					TabPrefix.getImpl().setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"));
+					TabPrefix.getImpl().setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Color"));
 				}
 
 				cs.sendMessage("§aSuccessfully reloaded the Configuration File!");
@@ -182,7 +182,26 @@ public class TablistCommand implements CommandExecutor, TabCompleter {
 				TabPrefix.getImpl().unset(p);
 				cs.sendMessage("§aThe Prefix and Suffix of §6" + p.getName() + " §awas deleted.");
 			}
-		} else if(args.length >= 3) {
+		}
+		else if(args.length >= 2) {
+			if(args[0].equalsIgnoreCase("setColor")) {
+				if(!cs.hasPermission("sTablist.setColor")) {
+					cs.sendMessage("§4You don't have permission to use this command!");
+					return true;
+				}
+				Player p = Bukkit.getPlayer(args[1]);
+
+				String msg = args[2];
+
+				try {
+					ChatColor chatColor = ChatColor.valueOf(msg);
+				}	catch(IllegalArgumentException ex)	{
+					p.sendMessage("§cColor is not valid!");
+				}
+
+				TabPrefix.getImpl().setColor(p, msg);
+				cs.sendMessage("§aThe Color of §6" + p.getName() + " §awas set to §6" + msg);
+			}
 			 if(args[0].equalsIgnoreCase("setHeader")) {
 				if(!cs.hasPermission("sTablist.setTab")) {
 					cs.sendMessage("§4You don't have permission to use this command!");
@@ -286,6 +305,7 @@ public class TablistCommand implements CommandExecutor, TabCompleter {
 			cs.sendMessage("§e/sTablist msg|message|pmsg <Player> <Type> <Message>");
 			cs.sendMessage("§e/sTablist setPrefix <Player> <Prefix>");
 			cs.sendMessage("§e/sTablist setSuffix <Player> <Suffix>");
+			cs.sendMessage("§e/sTablist setColor <Player> <Color>");
 			cs.sendMessage("§e/sTablist setHeader <Header>");
 			cs.sendMessage("§e/sTablist setFooter <Footer>");
 			cs.sendMessage("§e/sTablist del <Player>");

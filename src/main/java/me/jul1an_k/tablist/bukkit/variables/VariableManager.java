@@ -57,7 +57,7 @@ public class VariableManager {
 		newmsg = newmsg.replace("%displayname%", p.getDisplayName());
 		newmsg = newmsg.replace("%online%", getOnlinePlayers().size() + "");
 		newmsg = newmsg.replace("%max_online%", Bukkit.getMaxPlayers() + "");
-		newmsg = newmsg.replace("%servername%", Bukkit.getServerName());
+		newmsg = newmsg.replace("%servername%", Bukkit.getName());
 		newmsg = newmsg.replace("%deaths%", PvPVariables.getDeaths(p) + "");
 		newmsg = newmsg.replace("%kills%", PvPVariables.getKills(p) + "");
 		newmsg = newmsg.replace("%rdm_color%", Animation.getRandomColor() + "");
@@ -111,7 +111,7 @@ public class VariableManager {
 		newmsg = newmsg.replace("%displayname%", p.getDisplayName());
 		newmsg = newmsg.replace("%online%", getOnlinePlayers().size() + "");
 		newmsg = newmsg.replace("%max_online%", Bukkit.getMaxPlayers() + "");
-		newmsg = newmsg.replace("%servername%", Bukkit.getServerName());
+		newmsg = newmsg.replace("%servername%", Bukkit.getName());
 		newmsg = newmsg.replace("%deaths%", PvPVariables.getDeaths(p) + "");
 		newmsg = newmsg.replace("%kills%", PvPVariables.getKills(p) + "");
 		newmsg = newmsg.replace("%rdm_color%", Animation.getRandomColor() + "");
@@ -140,7 +140,7 @@ public class VariableManager {
 				snewmsg = snewmsg.replace("%displayname%", p.getDisplayName());
 				snewmsg = snewmsg.replace("%online%", getOnlinePlayers().size() + "");
 				snewmsg = snewmsg.replace("%max_online%", Bukkit.getMaxPlayers() + "");
-				snewmsg = snewmsg.replace("%servername%", Bukkit.getServerName());
+				snewmsg = snewmsg.replace("%servername%", Bukkit.getName());
 				snewmsg = snewmsg.replace("%deaths%", PvPVariables.getDeaths(p) + "");
 				snewmsg = snewmsg.replace("%kills%", PvPVariables.getKills(p) + "");
 				snewmsg = snewmsg.replace("%rdm_color%", Animation.getRandomColor() + "");

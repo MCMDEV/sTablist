@@ -36,20 +36,6 @@ public class Join_Listener implements Listener {
 		if(instance.getConfig().getBoolean("Join.Actionbar.use")) {
 			sTablistAPI.getImpl().sendActionBar(p, instance.getConfig().getString("Join.Actionbar.text"));
 		}
-		
-		// if(Tablist.sbcfg.YAML.getBoolean("Enable")) {
-		// for(String group :
-		// TabPrefix.getGroupsFile().getYaml().getConfigurationSection("").getKeys(false))
-		// {
-		// if(group.equalsIgnoreCase("GroupSort")) {
-		// continue;
-		// }
-		//
-		// TabPrefix.setupGroup(group,
-		// TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"),
-		// TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"), p);
-		// }
-		// }
 
 		TabPrefix.getImpl().loadNameTag(p);
 		
@@ -59,7 +45,7 @@ public class Join_Listener implements Listener {
 					continue;
 				}
 				
-				TabPrefix.getImpl().setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"), p);
+				TabPrefix.getImpl().setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Color"), p);
 			}
 			
 			Bukkit.getScheduler().runTaskLater(Tablist.getPlugin(Tablist.class), () -> {
@@ -68,7 +54,7 @@ public class Join_Listener implements Listener {
 							continue;
 						}
 						
-						TabPrefix.getImpl().setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"), p);
+						TabPrefix.getImpl().setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Color"), p);
 					}
 			}, 3 * 20);
 		}

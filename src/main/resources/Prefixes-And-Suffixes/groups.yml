@@ -1,12 +1,14 @@
-Owner:
-  Prefix: '&8[&4&lO&8] &4'
+owner:
+  Prefix: '&8[&4&lO&8] '
   Suffix: ' &3The Best'
-User:
-  Prefix: '&8[&9&lU&8] &9'
+  Color: 'DARK_RED'
+user:
+  Prefix: '&8[&9&lU&8] '
   Suffix: ' &3A User'
+  Color: 'BLUE'
   
 #Highest Group = Highest group in Tablist
 #Lowest Group = Lowsest group in Tablist
 GroupSort:
-- 'Owner'
-- 'User'
+- 'owner'
+- 'user'

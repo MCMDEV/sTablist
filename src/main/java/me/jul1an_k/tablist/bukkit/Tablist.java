@@ -47,7 +47,7 @@ public class Tablist extends JavaPlugin {
 				continue;
 			}
 			
-			TabPrefix.getImpl().setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"));
+			TabPrefix.getImpl().setupGroup(group, TabPrefix.getGroupsFile().getYaml().getString(group + ".Prefix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Suffix"), TabPrefix.getGroupsFile().getYaml().getString(group + ".Color"));
 		}
 		
 		Bukkit.getPluginManager().registerEvents(new Join_Listener(), this);
@@ -141,7 +141,7 @@ public class Tablist extends JavaPlugin {
 
 		tagUpdateTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(Tablist.getPlugin(Tablist.class), () -> {
 				for(Player all : Bukkit.getOnlinePlayers()) {
-					if(getConfig().getBoolean("SkipDisguised") && me.libraryaddict.disguise.DisguiseAPI.isDisguised(all)) continue;
+//					if(getConfig().getBoolean("SkipDisguised") && me.libraryaddict.disguise.DisguiseAPI.isDisguised(all)) continue;
 
 					TabPrefix.getImpl().loadNameTag(all);
 				}
